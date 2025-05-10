@@ -6,7 +6,7 @@
     Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "Fira Code", monospace;
 
-  --color-bg: #ffffff;
+  --color-bg: #f1f2f5;
   --color-text: #111827;
   --color-primary: #2563eb; /* Tailwind's blue-600 */
   --color-primary-hover: #1d4ed8;
@@ -16,9 +16,9 @@
 }
 
 /* ====== Base Reset ====== */
-* {
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
