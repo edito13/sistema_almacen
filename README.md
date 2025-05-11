@@ -1,1 +1,1 @@
-# Sistema de Armazém
+# Sistema de Gestão de Stock.

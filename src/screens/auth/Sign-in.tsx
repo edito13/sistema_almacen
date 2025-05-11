@@ -58,10 +58,10 @@ const SignIn: React.FC = () => {
         <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-md">
           <div className="mb-8 text-center">
             <h1 className="text-white text-4xl font-bold leading-tight drop-shadow-md">
-              Sistema de Gestión
+              Sistema de Gestão de Stock
             </h1>
             <h2 className="text-white text-2xl mt-2 drop-shadow-md">
-              Almacén Central Torre Alta
+              Unic Sala de TI
             </h2>
           </div>
 
