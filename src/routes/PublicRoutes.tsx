@@ -2,15 +2,15 @@ import React from "react";
 import useAuth from "@/hooks/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
 
-interface ProtectedRoutesProps {}
+interface PublicRoutesProps {}
 
-const ProtectedRoutes: React.FC<ProtectedRoutesProps> = () => {
+const PublicRoutes: React.FC<PublicRoutesProps> = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  return isAuthenticated ? <Outlet /> : <Navigate to="/sign-in" replace />;
+  return isAuthenticated ? <Navigate to="/" replace /> : <Outlet />;
 };
 
-export default ProtectedRoutes;
+export default PublicRoutes;
