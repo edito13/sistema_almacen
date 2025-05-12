@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import Stock from "@/screens/Stock";
 import Saidas from "@/screens/Saidas";
+import Config from "@/screens/Config";
 import Entradas from "@/screens/Entradas";
 import Dashboard from "@/screens/Dashboard";
-import Stock from "@/screens/Stock";
+import SignUp from "@/screens/auth/Sign-up";
 import SignIn from "@/screens/auth/Sign-in";
-import Config from "@/screens/Config";
 
 import Layout from "@/components/Layout";
 import PublicRoutes from "./PublicRoutes";
@@ -20,6 +21,7 @@ const Index: React.FC<IndexProps> = () => {
       <Routes>
         <Route element={<PublicRoutes />}>
           <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
         </Route>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Layout />}>
