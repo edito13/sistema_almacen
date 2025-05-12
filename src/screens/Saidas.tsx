@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Plus, Search, Calendar, ChevronDown } from "lucide-react";
+import NovaSaidaModal from "@/components/NovaSaidaModal.tsx";
 
 interface SaidaItem {
   id: number;
@@ -21,6 +22,14 @@ const Saidas: React.FC = () => {
   const [destino, setDestino] = useState("");
   const [dataInicio, setDataInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleSaveEntry = (data: any) => {
+    console.log("Daddos Salvos: ", data);
+
+    // lógica para salvar os dados,
+    // atualizar a tabela, enviar para API, etc.
+  };
 
   // Dados fictícios
   const data: SaidaItem[] = [

@@ -1,44 +1,115 @@
 import { Button } from "@mui/material";
 import { MdDashboard } from "react-icons/md";
-import { PackageOpen, Settings } from "lucide-react";
 import { FaArrowLeft, FaArrowRight, FaSignOutAlt } from "react-icons/fa";
+import {
+  PackageOpen,
+  Settings,
+  Code,
+  Layers,
+  Grid,
+  Users,
+  LogOut,
+  PackageSearch,
+  Binary,
+} from "lucide-react";
 
 import Item from "./MenuItem";
 import useAuth from "@/hooks/useAuth";
+
+// @ts-ignore
+interface ItemProps {
+  key: string;
+  label: string;
+  to: string;
+  icon: React.ComponentType;
+  className?: string;
+}
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
   const { signOut } = useAuth();
 
-  const items = [
+  // Grupos de navegação
+  const warehouseItems = [
     { label: "Dashboard", to: "/", icon: MdDashboard },
     { label: "Stock Geral", to: "/stock", icon: PackageOpen },
     { label: "Entradas", to: "/entradas", icon: FaArrowRight },
     { label: "Saídas", to: "/saidas", icon: FaArrowLeft },
+  ];
+
+  const configItems = [
+    { label: "Produtos", to: "/produtos", icon: PackageSearch },
+    { label: "Código", to: "/codigo", icon: Binary },
+    { label: "Família", to: "/familia", icon: Layers },
+    { label: "Conjunto", to: "/conjuntos", icon: Layers },
+    { label: "Áreas", to: "/areas", icon: Grid },
+    { label: "Provedores/Clientes", to: "/clientes", icon: Users },
+  ];
+
+  const userManagementItems = [
     { label: "Configurações", to: "/config", icon: Settings },
+    { label: "Logout", to: "/sign-in", icon: LogOut },
   ];
 
   return (
-    <aside className="w-72 flex flex-col gap-4 items-center bg-white shadow-lg rounded-2xl p-6">
-      <img className="w-48 mb-4" src="/assets/img/logo-ct-dark.png" />
-      <nav className="space-y-2 w-full text-center">
-        <span className="text-xs mb-6">
-          <b>GERENCIAMENTO DE ARMAZÉM</b>
-        </span>
-        {items.map((item) => (
-          <Item key={item.to} {...item} />
-        ))}
-      </nav>
-      <div className="mt-auto flex justify-center">
-        <Button
-          variant="text"
-          onClick={() => signOut()}
-          startIcon={<FaSignOutAlt size={20} />}
-        >
-          Terminar sessão
-        </Button>
+    <aside className="h-screen w-72 flex flex-col bg-white shadow-lg rounded-2xl p-4 transition-all duration-200 hover:shadow-xl">
+      {/* Logo */}
+      <div className="flex justify-center mb-4">
+        <img className="w-36" src="/assets/img/logo-ct-dark.png" alt="Logo" />
       </div>
+
+      {/* Navegação com scroll interno */}
+      <nav className="flex flex-col flex-1 h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        {/* Gerenciamento de Armazém */}
+        <span className="block w-full text-center text-xs font-semibold uppercase text-gray-500 px-2 mb-2">
+          Gerenciamento de Armazém
+        </span>
+        <div className="space-y-1 px-2 mb-4">
+          {warehouseItems.map((item) => (
+            <Item
+              key={item.to}
+              label={item.label}
+              to={item.to}
+              icon={item.icon}
+            />
+          ))}
+        </div>
+
+        <hr className="border-t border-gray-200 mb-4" />
+
+        {/* Configurações */}
+        <span className="block w-full text-center text-xs font-semibold uppercase text-gray-500 px-2 mb-2">
+          Configurações
+        </span>
+        <div className="space-y-1 px-2 mb-4">
+          {configItems.map((item) => (
+            <Item
+              key={item.to}
+              label={item.label}
+              to={item.to}
+              icon={item.icon}
+            />
+          ))}
+        </div>
+
+        <hr className="border-t border-gray-200 mb-4" />
+
+        {/* Gerenciamento de Usuários */}
+        <span className="block w-full text-center text-xs font-semibold uppercase text-gray-500 px-2 mb-2">
+          Gerenciamento de Usuários
+        </span>
+        <div className="space-y-1 px-2 mb-4">
+          {userManagementItems.map((item) => (
+            <Item
+              key={item.to}
+              label={item.label}
+              to={item.to}
+              icon={item.icon}
+            />
+          ))}
+        </div>
+      </nav>
     </aside>
   );
 };
