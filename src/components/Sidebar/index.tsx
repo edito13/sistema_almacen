@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { MdDashboard } from "react-icons/md";
 import { FaArrowLeft, FaArrowRight, FaSignOutAlt } from "react-icons/fa";
 import {
@@ -49,11 +48,17 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   const userManagementItems = [
     { label: "Configurações", to: "/config", icon: Settings },
-    { label: "Logout", to: "/sign-in", icon: LogOut },
+    {
+      label: "Logout",
+      to: "/sign-in",
+      type: "button",
+      icon: LogOut,
+      onClick: signOut,
+    },
   ];
 
   return (
-    <aside className="h-screen w-72 flex flex-col bg-white shadow-lg rounded-2xl p-4 transition-all duration-200 hover:shadow-xl">
+    <aside className="max-h-full w-72 flex flex-col bg-white shadow-lg rounded-2xl p-4 transition-all duration-200 hover:shadow-xl">
       {/* Logo */}
       <div className="flex justify-center mb-4">
         <img className="w-36" src="/assets/img/logo-ct-dark.png" alt="Logo" />
@@ -106,6 +111,10 @@ const Sidebar: React.FC<SidebarProps> = () => {
               label={item.label}
               to={item.to}
               icon={item.icon}
+              {...(item.type === "button" && {
+                type: "button",
+                onClick: item.onClick,
+              })}
             />
           ))}
         </div>
