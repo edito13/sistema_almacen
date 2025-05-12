@@ -134,11 +134,18 @@ const SignIn: React.FC = () => {
               <button
                   type="submit"
                   disabled={isLoading}
+                  onClick={() => {
+                    if (!isLoading) {
+                      setTimeout(() => {
+                        window.location.href = '/';
+                      }, 1500);
+                    }
+                  }}
                   className="w-full bg-orange-500 text-white font-semibold uppercase py-3 rounded-lg hover:bg-orange-600 transition flex items-center justify-center disabled:bg-orange-400"
               >
                 {isLoading ? (
                     <>
-                      <Loader className="animate-spin mr-2" size={18} />
+                      <Loader className="animate-spin mr-2" size={18}/>
                       Processando...
                     </>
                 ) : (

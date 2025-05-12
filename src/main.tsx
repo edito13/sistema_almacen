@@ -6,9 +6,9 @@ import App from "./App.tsx";
 import QueryProvider from "./providers/QueryProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <QueryProvider>
-      <App />
-    </QueryProvider>
-  </StrictMode>
+    <StrictMode>
+        <QueryProvider>
+            <App />
+        </QueryProvider>
+    </StrictMode>
 );

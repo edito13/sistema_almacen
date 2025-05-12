@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Plus, Search, Calendar, ChevronDown } from "lucide-react";
+import NovaSaidaModal from "@/components/NovaSaidaModal.tsx";
 
 interface SaidaItem {
   id: number;
@@ -21,6 +22,14 @@ const Saidas: React.FC = () => {
   const [destino, setDestino] = useState("");
   const [dataInicio, setDataInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleSaveEntry = (data: any) =>{
+    console.log("Daddos Salvos: ",data);
+
+    // lógica para salvar os dados,
+    // atualizar a tabela, enviar para API, etc.
+  }
 
   // Dados fictícios
   const data: SaidaItem[] = [
@@ -51,7 +60,9 @@ const Saidas: React.FC = () => {
           {/* Cabeçalho */}
           <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
             <h1 className="text-2xl font-bold text-white">Saídas do Almoxarifado</h1>
-            <button className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition">
+            <button className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition"
+                    onClick={() => setIsModalOpen(true)}
+            >
               <Plus size={18} />
               <span className="font-medium">Nova Saída</span>
             </button>
@@ -158,6 +169,12 @@ const Saidas: React.FC = () => {
                 </button>
               </nav>
             </div>
+
+            <NovaSaidaModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onSave={handleSaveEntry}
+            />
           </div>
         </div>
       </div>
