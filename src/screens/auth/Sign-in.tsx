@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, Loader } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -8,6 +8,7 @@ import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
 import schema from "@/schemas/loginSchema";
 import type { LoginFormData } from "@/types/schemas";
+import Input from "@/components/Input";
 
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
@@ -61,68 +62,47 @@ const SignIn: React.FC = () => {
         </div>
 
         {/* Card de login */}
-        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden p-10">
           {/* Cabeçalho */}
-          <div className="bg-orange-500 text-white text-2xl font-bold py-5 text-center">
-            Login
+          <div>
+            <h3 className="text-orange-500 text-2xl font-bold">
+              Acesse a sua conta
+            </h3>
+            <p className="text-sm">
+              Não tem uma conta ainda?{" "}
+              <Link className="text-orange-500" to="/sign-up">
+                Criar conta
+              </Link>
+            </p>
           </div>
 
           {/* Formulário */}
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
             {/* Campo de Email */}
-            <div className="space-y-1">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-                  <Mail size={18} />
-                </div>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className={`w-full border ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  } rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500`}
-                  {...register("email")}
-                  style={{ paddingLeft: "2.5rem" }}
-                />
-              </div>
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
+            <Input
+              type="email"
+              placeholder="Email"
+              icon={<Mail size={18} />}
+              register={register}
+              name="email"
+              error={errors.email?.message}
+            />
 
             {/* Campo de Senha */}
-            <div className="space-y-1">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-                  <Lock size={18} />
-                </div>
-                <input
-                  type="password"
-                  placeholder="Senha"
-                  className={`w-full border ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  } rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500`}
-                  {...register("password")}
-                  style={{ paddingLeft: "2.5rem" }}
-                />
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+            <Input
+              type="password"
+              placeholder="Senha"
+              icon={<Lock size={18} />}
+              register={register}
+              name="password"
+              error={errors.password?.message}
+            />
 
             {/* Link "Esqueceu a senha" */}
             <div className="text-right">
-              <a
-                href="#"
-                className="text-sm text-orange-600 hover:text-orange-700 hover:underline"
-              >
+              <Link to="/forgot-password" className="text-orange-500 font-bold">
                 Esqueceu a senha?
-              </a>
+              </Link>
             </div>
 
             {/* Botão de Login */}
