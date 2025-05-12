@@ -1,4 +1,4 @@
-import { PackageOpen, Settings, Code, Layers, Grid, Users, LogOut } from "lucide-react";
+import { PackageOpen, Settings, Code, Layers, Grid, Users, LogOut, PackageSearch, Binary } from "lucide-react";
 import { MdDashboard } from "react-icons/md";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -25,8 +25,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
   ];
 
   const configItems = [
-    { label: "Produtos", to: "/produtos", icon: PackageOpen },
-    { label: "Código", to: "/codigo", icon: Code },
+    { label: "Produtos", to: "/produtos", icon: PackageSearch },
+    { label: "Código", to: "/codigo", icon: Binary },
     { label: "Família", to: "/familia", icon: Layers },
     { label: "Conjunto", to: "/conjuntos", icon: Layers },
     { label: "Áreas", to: "/areas", icon: Grid },
