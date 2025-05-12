@@ -1,12 +1,16 @@
-import { PackageOpen, Settings } from "lucide-react";
+import { Button } from "@mui/material";
 import { MdDashboard } from "react-icons/md";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { PackageOpen, Settings } from "lucide-react";
+import { FaArrowLeft, FaArrowRight, FaSignOutAlt } from "react-icons/fa";
 
 import Item from "./MenuItem";
+import useAuth from "@/hooks/useAuth";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
+  const { signOut } = useAuth();
+
   const items = [
     { label: "Dashboard", to: "/", icon: MdDashboard },
     { label: "Stock Geral", to: "/stock", icon: PackageOpen },
@@ -26,6 +30,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <Item key={item.to} {...item} />
         ))}
       </nav>
+      <div className="flex-1 justify-self-end">
+        <Button
+          variant="text"
+          onClick={() => signOut()}
+          startIcon={<FaSignOutAlt size={20} />}
+        >
+          Terminar sessão
+        </Button>
+      </div>
     </aside>
   );
 };

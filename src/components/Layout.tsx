@@ -6,9 +6,9 @@ interface LayoutProps {}
 
 const Layout: React.FC<LayoutProps> = () => {
   return (
-    <div className="flex min-h-screen bg-gray-100 p-4">
+    <div className="flex gap-6 min-h-screen bg-gray-100 p-4">
       <Sidebar />
-      <main className="flex-1 p-4">
+      <main className="flex-1">
         <Outlet />
       </main>
     </div>
