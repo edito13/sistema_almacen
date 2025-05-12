@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <Item key={item.to} {...item} />
         ))}
       </nav>
-      <div className="flex-1 justify-self-end">
+      <div className="mt-auto flex justify-center">
         <Button
           variant="text"
           onClick={() => signOut()}

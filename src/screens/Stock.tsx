@@ -11,6 +11,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
+import { Tooltip } from "@mui/material";
 
 interface StockProps {}
 
@@ -210,16 +211,20 @@ const Stock: React.FC<StockProps> = () => {
         {/* Tabela de produtos */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-            <h3 className="text-4xl font-semibold text-gray-700">
+            <h3 className="text-2xl font-semibold text-gray-700">
               Inventário de Produtos
             </h3>
             <div className="flex space-x-2">
-              <button className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100">
-                <Filter size={18} />
-              </button>
-              <button className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100">
-                <Download size={18} />
-              </button>
+              <Tooltip title="Filtrar" arrow>
+                <button className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100">
+                  <Filter size={18} />
+                </button>
+              </Tooltip>
+              <Tooltip title="Baixar inventário" arrow>
+                <button className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100">
+                  <Download size={18} />
+                </button>
+              </Tooltip>
             </div>
           </div>
 
@@ -281,9 +286,7 @@ const Stock: React.FC<StockProps> = () => {
                       <SortIcon column="status" />
                     </div>
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ações
-                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
