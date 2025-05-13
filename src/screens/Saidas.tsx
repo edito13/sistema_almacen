@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Search, Calendar, ChevronDown } from "lucide-react";
+import { Plus, ChevronDown } from "lucide-react";
 import NovaSaidaModal from "@/components/NovaSaidaModal.tsx";
 
 interface SaidaItem {
@@ -87,7 +87,7 @@ const Saidas: React.FC = () => {
     setPaginaAtual(Math.min(Math.max(page, 1), totalPaginas));
 
   return (
-    <div className="bg-gray-50 min-h-screen p-6">
+    <div className="bg-gray-50 h-full rounded-2xl p-6">
       <div className="max-w-7xl mx-auto">
         {/* Cabeçalho */}
         <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
