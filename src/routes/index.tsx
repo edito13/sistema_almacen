@@ -29,6 +29,9 @@ const Index: React.FC<IndexProps> = () => {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
 
+        </Route>
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="stock" element={<Stock />} />
           <Route path="areas" element={<Areas />} />
@@ -40,9 +43,6 @@ const Index: React.FC<IndexProps> = () => {
           <Route path="clientes" element={<Clientes />} />
           <Route path="entradas" element={<Entradas />} />
           <Route path="conjuntos" element={<Conjunto />} />
-        </Route>
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<Layout />}>
 
           </Route>
         </Route>
