@@ -28,21 +28,24 @@ const Index: React.FC<IndexProps> = () => {
         <Route element={<PublicRoutes />}>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+
         </Route>
+
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="stock" element={<Stock />} />
-            <Route path="areas" element={<Areas />} />
-            <Route path="saidas" element={<Saidas />} />
-            <Route path="config" element={<Config />} />
-            <Route path="codigo" element={<Codigo />} />
-            <Route path="familia" element={<Familia />} />
-            <Route path="produtos" element={<Produtos />} />
-            <Route path="clientes" element={<Clientes />} />
-            <Route path="entradas" element={<Entradas />} />
-            <Route path="conjuntos" element={<Conjunto />} />
+          <Route index element={<Dashboard />} />
+          <Route path="stock" element={<Stock />} />
+          <Route path="areas" element={<Areas />} />
+          <Route path="saidas" element={<Saidas />} />
+          <Route path="config" element={<Config />} />
+          <Route path="codigo" element={<Codigo />} />
+          <Route path="familia" element={<Familia />} />
+          <Route path="produtos" element={<Produtos />} />
+          <Route path="clientes" element={<Clientes />} />
+          <Route path="entradas" element={<Entradas />} />
+          <Route path="conjuntos" element={<Conjunto />} />
           </Route>
+
         </Route>
       </Routes>
     </BrowserRouter>

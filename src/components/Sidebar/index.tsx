@@ -1,8 +1,9 @@
 import { MdDashboard } from "react-icons/md";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaSignOutAlt } from "react-icons/fa";
 import {
   PackageOpen,
   Settings,
+  Code,
   Layers,
   Grid,
   Users,
