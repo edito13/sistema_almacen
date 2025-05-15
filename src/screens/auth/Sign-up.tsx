@@ -1,8 +1,9 @@
 import React from "react";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast, ToastContainer } from "react-toastify";
 import { Mail, Lock, Loader, User } from "lucide-react";
+import { useForm, type SubmitHandler } from "react-hook-form";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
@@ -24,7 +25,7 @@ const SignUp: React.FC = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (formData: RegisterFormData) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = async (formData) => {
     try {
       const payload = {
         name: formData.name,
@@ -33,13 +34,14 @@ const SignUp: React.FC = () => {
       };
 
       const data = await Api.auth.register(payload);
+      if (data?.error) throw data.message;
 
-      if (data.error) throw new Error(data.message);
+      toast.success("Conta criada com sucesso.");
 
       signIn(data);
       navigate("/");
-    } catch (error) {
-      console.error("Erro no registro:", error);
+    } catch (message) {
+      toast.error(message as string);
     } finally {
       // setIsLoading(false);
     }
@@ -80,7 +82,7 @@ const SignUp: React.FC = () => {
 
           {/* Formulário */}
           <form onSubmit={handleSubmit(onSubmit)} className="mt-5 space-y-5">
-            {/* Campo de Email */}
+            {/* Campo de Nome */}
             <Input
               type="text"
               placeholder="Nome do usuário"
@@ -90,6 +92,7 @@ const SignUp: React.FC = () => {
               error={errors.name?.message}
             />
 
+            {/* Campo de Email */}
             <Input
               type="email"
               placeholder="Email"
@@ -140,6 +143,7 @@ const SignUp: React.FC = () => {
                 "Criar conta"
               )}
             </button>
+            <ToastContainer position="bottom-right" />
           </form>
         </div>
       </div>

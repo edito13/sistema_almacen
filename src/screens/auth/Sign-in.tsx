@@ -1,14 +1,15 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { Mail, Lock, Loader } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast, ToastContainer } from "react-toastify";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
+import Input from "@/components/Input";
 import schema from "@/schemas/loginSchema";
 import type { LoginFormData } from "@/types/schemas";
-import Input from "@/components/Input";
 
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
@@ -28,16 +29,16 @@ const SignIn: React.FC = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (payload: LoginFormData) => {
+  const onSubmit: SubmitHandler<LoginFormData> = async (payload) => {
     try {
       const data = await Api.auth.login(payload);
 
-      if (data.error) throw new Error(data.message);
+      if (data.error) throw data.message;
 
       signIn(data);
       navigate("/");
-    } catch (error) {
-      console.error("Erro no login:", error);
+    } catch (message) {
+      toast.error(message as string);
     } finally {
       // setIsLoading(false);
     }
@@ -120,6 +121,7 @@ const SignIn: React.FC = () => {
                 "Entrar"
               )}
             </button>
+            <ToastContainer />
           </form>
         </div>
       </div>

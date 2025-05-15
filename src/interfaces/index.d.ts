@@ -17,7 +17,7 @@ interface User {
   updatedAt: Date;
 }
 
-interface loginResponse {
+interface AuthResponse {
   user: User;
   token: string;
   message: string;

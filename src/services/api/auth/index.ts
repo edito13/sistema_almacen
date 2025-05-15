@@ -2,11 +2,11 @@ import axios from "@/services/axios";
 
 const Api = {
   login: async (payload: payloadLogin) => {
-    const { data } = await axios.post<loginResponse>("/auth/login", payload);
+    const { data } = await axios.post<AuthResponse>("/auth/login", payload);
     return data;
   },
   register: async (payload: payloadRegister) => {
-    const { data } = await axios.post("/auth/register", payload);
+    const { data } = await axios.post<AuthResponse>("/auth/register", payload);
     return data;
   },
 };
