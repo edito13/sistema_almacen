@@ -326,10 +326,6 @@ const Stock: React.FC<StockProps> = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.4 }}
             >
-              <Search
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
               <input
                 type="text"
                 placeholder="Buscar produto..."
@@ -430,8 +426,8 @@ const Stock: React.FC<StockProps> = () => {
               <Tooltip title="Filtrar" arrow>
                 <motion.button
                   className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100"
-                  whileHover={{ scale: 1.1, rotate: 15 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.9, y: 0 }}
                 >
                   <Filter size={18} />
                 </motion.button>
@@ -620,7 +616,7 @@ const Stock: React.FC<StockProps> = () => {
                           <div className="flex justify-end space-x-2">
                             <motion.button
                               className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"
-                              whileHover={{ scale: 1.2, rotate: 5 }}
+                              whileHover={{ scale: 1.2 }}
                               whileTap={{ scale: 0.9 }}
                               transition={{
                                 type: "spring",
@@ -632,7 +628,7 @@ const Stock: React.FC<StockProps> = () => {
                             </motion.button>
                             <motion.button
                               className="text-indigo-600 hover:text-indigo-900 p-1 rounded-md hover:bg-indigo-50"
-                              whileHover={{ scale: 1.2, rotate: -5 }}
+                              whileHover={{ scale: 1.2 }}
                               whileTap={{ scale: 0.9 }}
                               transition={{
                                 type: "spring",
@@ -644,7 +640,7 @@ const Stock: React.FC<StockProps> = () => {
                             </motion.button>
                             <motion.button
                               className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50"
-                              whileHover={{ scale: 1.2, rotate: 5 }}
+                              whileHover={{ scale: 1.2 }}
                               whileTap={{ scale: 0.9 }}
                               transition={{
                                 type: "spring",
