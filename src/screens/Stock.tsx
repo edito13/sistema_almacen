@@ -167,9 +167,9 @@ const Stock: React.FC<StockProps> = () => {
                         <motion.span whileHover={{ scale: 1.05 }} className={`${item.status === "Disponível" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"} px-2 inline-flex text-xs leading-5 font-semibold rounded-full`}>{item.status}</motion.span>
                       </td>
                       <td className="px-6 py-4 text-right text-sm font-medium flex justify-end space-x-2">
-                        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"><Eye size={16} /></motion.button>
-                        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="text-indigo-600 hover:text-indigo-900 p-1 rounded-md hover:bg-indigo-50"><Edit size={16} /></motion.button>
-                        <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50"><Trash2 size={16} /></motion.button>
+                        <motion.button whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"><Eye size={16} /></motion.button>
+                        <motion.button whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} className="text-indigo-600 hover:text-indigo-900 p-1 rounded-md hover:bg-indigo-50"><Edit size={16} /></motion.button>
+                        <motion.button whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50"><Trash2 size={16} /></motion.button>
                       </td>
                     </tr>
                 ))}
