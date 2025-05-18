@@ -4,14 +4,18 @@ import { Mail, Lock, Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, ToastContainer } from "react-toastify";
+import {useTranslation} from "react-i18next";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
 import Input from "@/components/Input";
 import schema from "@/schemas/loginSchema";
 import type { LoginFormData } from "@/types/schemas";
+import LanguageSelector from "@/components/LanguageSelector.tsx";
 
 const SignIn: React.FC = () => {
+  const {t} = useTranslation();
+
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
@@ -51,14 +55,19 @@ const SignIn: React.FC = () => {
     >
       <div className="absolute inset-0 bg-black/60 z-0"></div>
 
+      {/* Language selector no topo */}
+      <div className="absolute top-4 right-4 z-10">
+        <LanguageSelector />
+      </div>
+
       {/* Conteúdo principal */}
       <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-md">
         <div className="mb-8 text-center">
           <h1 className="text-white text-4xl font-bold leading-tight drop-shadow-md">
-            Sistema de Gestão de Stock
+            {t('login.title')}
           </h1>
           <h2 className="text-white text-2xl mt-2 drop-shadow-md">
-            Unic Sala de TI
+            {t('login.subTitle')}
           </h2>
         </div>
 
@@ -67,12 +76,12 @@ const SignIn: React.FC = () => {
           {/* Cabeçalho */}
           <div>
             <h3 className="text-orange-500 text-2xl font-bold">
-              Acesse a sua conta
+              {t('login.accessAcc')}
             </h3>
             <p className="text-sm">
-              Não tem uma conta ainda?{" "}
+              {t('login.no_account')}{" "}
               <Link className="text-orange-500" to="/sign-up">
-                Criar conta
+                {t('login.go_to_register')}
               </Link>
             </p>
           </div>
@@ -102,36 +111,37 @@ const SignIn: React.FC = () => {
             {/* Link "Esqueceu a senha" */}
             <div className="text-right">
               <Link to="/forgot-password" className="text-orange-500 font-bold">
-                Esqueceu a senha?
+                {t('login.forgot_password')}
               </Link>
             </div>
 
             {/* Botão de Login */}
             <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-orange-500 text-white font-semibold uppercase py-3 rounded-lg hover:bg-orange-600 transition flex items-center justify-center disabled:bg-orange-400"
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-orange-500 text-white font-semibold uppercase py-3 rounded-lg hover:bg-orange-600 transition flex items-center justify-center disabled:bg-orange-400"
             >
               {isSubmitting ? (
-                <>
-                  <Loader className="animate-spin mr-2" size={18} />
-                  Processando...
-                </>
+                  <>
+                    <Loader className="animate-spin mr-2" size={18} />
+                    {t('login.loading')} {/* "Processando..." */}
+                  </>
               ) : (
-                "Entrar"
+                  t('login.submit') /* "Entrar" */
               )}
             </button>
+
             <ToastContainer />
           </form>
         </div>
       </div>
 
       {/* Versão do sistema */}
-      <div className="mt-4 text-white text-sm drop-shadow-md">Versão 1.0.0</div>
+      <div className="mt-4 text-white text-sm drop-shadow-md"> {t('login.version')}</div>
 
       {/* Footer */}
       <div className="absolute bottom-4 left-4 text-white text-sm z-10 drop-shadow-md">
-        © {currentYear} - Todos os direitos reservados
+        © {currentYear} -  {t('login.rights')}
       </div>
     </div>
   );

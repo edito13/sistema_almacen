@@ -1,0 +1,41 @@
+{
+  "login": {
+    "title": "Sistema de Gestión",
+    "subTitle": "Unic Sala de TI",
+    "accessAcc": "Accede a tu cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Entrar",
+    "loading": "Procesando...",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "no_account": "¿No tienes una cuenta aún?",
+    "go_to_register": "Crear cuenta",
+    "version": "Versión 1.0.0",
+    "rights": "Todos los derechos reservados",
+    "errors": {
+      "name_required": "El nombre es obligatorio",
+      "name_too_short": "El nombre debe tener al menos 3 caracteres",
+      "email_required": "El correo electrónico es obligatorio",
+      "email_invalid": "Formato de correo electrónico inválido",
+      "password_required": "La contraseña es obligatoria",
+      "password_too_short": "La contraseña debe tener al menos 6 caracteres",
+      "confirm_required": "La confirmación de la contraseña es obligatoria",
+      "password_mismatch": "Las contraseñas deben coincidir"
+    }
+  },
+  "register": {
+    "title": "Sistema de Gestión",
+    "subTitle": "Unic Sala de TI",
+    "create": "Crear una cuenta",
+    "login": "Iniciar sesión",
+    "name": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "submit": "Crear cuenta",
+    "loading": "Procesando...",
+    "have_account": "¿Ya tienes una cuenta?",
+    "success": "Cuenta creada con éxito",
+    "forgot_password": "¿Olvidaste tu contraseña?"
+  }
+}
