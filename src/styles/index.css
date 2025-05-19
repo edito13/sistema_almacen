@@ -74,12 +74,6 @@ select {
   background: white;
   transition: border-color var(--transition);
 }
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-}
 
 /* ====== Scrollbar (opcional) ====== */
 ::-webkit-scrollbar {
