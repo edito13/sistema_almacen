@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
-import Input from "@/components/Input";
+import Input from "@/components/InputBase";
 import schema from "@/schemas/loginSchema";
 import type { LoginFormData } from "@/types/schemas";
 

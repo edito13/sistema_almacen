@@ -7,7 +7,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
-import Input from "@/components/Input";
+import Input from "@/components/InputBase";
 import schema from "@/schemas/registerSchema";
 import type { RegisterFormData } from "@/types/schemas";
 
