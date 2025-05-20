@@ -1,0 +1,1 @@
+type Modals = "entry" | "exit";

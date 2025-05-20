@@ -6,13 +6,16 @@ import "@/styles/index.css";
 import App from "./App.tsx";
 import AuthProvider from "@/providers/AuthProvider.tsx";
 import QueryProvider from "@/providers/QueryProvider.tsx";
+import ModalProvider from "./providers/ModalProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <ModalProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </ModalProvider>
     </QueryProvider>
   </StrictMode>
 );

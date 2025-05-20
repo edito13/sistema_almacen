@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
-import Input from "@/components/Input";
+import Input from "@/components/InputBase";
 import schema from "@/schemas/loginSchema";
 import type { LoginFormData } from "@/types/schemas";
 import LanguageSelector from "@/components/LanguageSelector.tsx";
@@ -43,8 +43,6 @@ const SignIn: React.FC = () => {
       navigate("/");
     } catch (message) {
       toast.error(message as string);
-    } finally {
-      // setIsLoading(false);
     }
   };
 
