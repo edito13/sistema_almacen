@@ -64,56 +64,56 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
       <Modal.Content>
         <Form form={form} onSubmit={handleSubmit}>
           <Input
-            label="Equipamento"
+            label={t('entryModal.equip')}
             control={form.control}
             name="equipment_id"
             select
             size={6}
             required
             options={equipments || []}
-            placeholder="Selecione o equipamento"
+            placeholder={t('entryModal.select_equip')}
           />
 
           <Input
-            label="Quantidade"
+            label={t('entryModal.ammount')}
             control={form.control}
             name="quantity"
             type="number"
             required
             size={6}
-            placeholder="Digite a quantidade"
+            placeholder={t('entryModal.type_ammount')}
           />
 
           <Input
-            label="Fornecedor"
+            label={t('entryModal.supplier')}
             control={form.control}
             name="supplier"
             required
             size={4}
-            placeholder="Digite o fornecedor"
+            placeholder={t('entryModal.type_supplier')}
           />
 
           <Input
-            label="Detalhes"
+            label={t('entryModal.details')}
             control={form.control}
             name="details"
             required
             size={4}
-            placeholder="Digite os detalhes"
+            placeholder={t('entryModal.type_details')}
           />
 
           <Input
-            label="Quantidade Mínima"
+            label={t('entryModal.minAmmount')}
             control={form.control}
             name="minimum_quantity"
             type="number"
             required
             size={4}
-            placeholder="Digite a quantidade mínima"
+            placeholder={t('entryModal.type_minAmmount')}
           />
 
           <Input
-            label="Conceito"
+            label={t('entryModal.concept')}
             control={form.control}
             name="concept"
             select
@@ -123,11 +123,11 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
               { value: "Nova Compra", label: "Nova Compra" },
               { value: "Doação", label: "Doação" },
             ]}
-            placeholder="Selecione um conceito"
+            placeholder={t('entryModal.select_concept')}
           />
 
           <Input
-            label="Data de Entrada"
+            label={t('entryModal.entry_date')}
             control={form.control}
             name="entry_date"
             type="date"
@@ -136,12 +136,12 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
           />
 
           <Input
-            label="Responsável"
+            label={t('entryModal.responsible')}
             control={form.control}
             name="responsible"
             required
             size={4}
-            placeholder="Digite o nome do responsável"
+            placeholder={t('entryModal.type_responsible')}
           />
 
           <Grid size={12}>
@@ -152,7 +152,7 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
                 className="flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition duration-200"
               >
                 <XCircle size={16} className="mr-1" />
-                Cancelar
+                {t('entryModal.cancelBtn')}
               </button>
               <button
                 type="submit"
@@ -164,7 +164,7 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
                 }`}
               >
                 <Save size={16} className="mr-1" />
-                Confirmar
+                {t('entryModal.confirmBtn')}
               </button>
             </div>
           </Grid>

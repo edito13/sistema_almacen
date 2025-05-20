@@ -3,6 +3,7 @@ import { Save, XCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import {useTranslation} from "react-i18next";
 
 import Api from "@/services/api";
 import Modal from "@/components/Modal";
@@ -20,6 +21,8 @@ interface ModalExitProps {
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
 const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
+  const {t} = useTranslation();
+
   const form = useForm<ExitFormData>({
     mode: "all",
     resolver: zodResolver(schema),
@@ -41,7 +44,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
   }));
 
   const handleSubmit: SubmitHandler<ExitFormData> = async (data) => {
-    alert("Dados Salvos");
+    alert(t('exitModal.data_saved'));
     console.log("Dados Salvos: ", data);
     console.log(typeof data.equipment_id);
 
@@ -52,7 +55,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
       console.log("Resposta da API: ", response);
 
       // Exibir mensagem de sucesso
-      toast.success("Saída feita com sucesso!");
+      toast.success(t('exitModal.success'));
     } catch (message) {
       toast.error(message as string);
     } finally {
@@ -62,32 +65,32 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
 
   return (
     <Modal.Root name="exit">
-      <Modal.Title Icon={Save}>Nova Saída</Modal.Title>
+      <Modal.Title Icon={Save}>{t('exitModal.title')}</Modal.Title>
       <Modal.Content>
         <Form form={form} onSubmit={handleSubmit}>
           <Input
-            label="Equipamento"
+            label={t('exitModal.equip')}
             control={form.control}
             name="equipment_id"
             select
             size={6}
             required
             options={equipments || []}
-            placeholder="Selecione o equipamento"
+            placeholder={t('exitModal.select_equip')}
           />
 
           <Input
-            label="Quantidade"
+            label={t('exitModal.ammount')}
             control={form.control}
             name="quantity"
             type="number"
             required
             size={6}
-            placeholder="Digite a quantidade"
+            placeholder={t('exitModal.type_ammount')}
           />
 
           <Input
-            label="Conceito"
+            label={t('exitModal.concept')}
             control={form.control}
             name="concept"
             select
@@ -97,11 +100,11 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
               { value: "Nova Compra", label: "Nova Compra" },
               { value: "Doação", label: "Doação" },
             ]}
-            placeholder="Selecione um conceito"
+            placeholder={t('exitModal.concept')}
           />
 
           <Input
-            label="Data de Saída"
+            label={t('exitModal.exit_date')}
             control={form.control}
             name="exit_date"
             type="date"
@@ -110,12 +113,12 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
           />
 
           <Input
-            label="Responsável"
+            label={t('exitModal.responsible')}
             control={form.control}
             name="responsible"
             required
             size={12}
-            placeholder="Digite o nome do responsável"
+            placeholder={t('exitModal.type_responsible')}
           />
 
           <Grid size={12}>
@@ -126,7 +129,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
                 className="flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition duration-200"
               >
                 <XCircle size={16} className="mr-1" />
-                Cancelar
+                {t('exitModal.cancelBtn')}
               </button>
               <button
                 type="submit"
@@ -138,7 +141,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
                 }`}
               >
                 <Save size={16} className="mr-1" />
-                Confirmar
+                {t('exitModal.confirmBtn')}
               </button>
             </div>
           </Grid>

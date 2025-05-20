@@ -1,7 +1,7 @@
 {
   "login": {
     "title": "Sistema de Gestão",
-    "subTitle": "Unic Sala de TI",
+    "subTitle": "Direção de Sistemas",
     "accessAcc": "Acesse a sua conta",
     "email": "E-mail",
     "password": "Senha",
@@ -25,7 +25,7 @@
   },
   "register": {
     "title": "Sistema de Gestão",
-    "subTitle": "Unic Sala de TI",
+    "subTitle": "Direção de Sistemas",
     "create": "Criar uma conta",
     "login": "Fazer login",
     "name": "Nome do usuário",
@@ -82,6 +82,7 @@
     "minAmmount": "Quantidade Mínima",
     "type_minAmmount": "Digite a Quantidade Mínima",
     "concept": "Conceito",
+    "select_concept": "Selecione o Conceito",
     "responsible": "Responsável",
     "entry_date": "Data de Entrada",
     "cancelBtn": "Cancelar",
@@ -102,6 +103,7 @@
     "type_responsible": "Digite o nome do Responsável",
     "exit_date": "Data de Saída",
     "cancelBtn": "Cancelar",
-    "confirmBtn": "Confirmar"
+    "confirmBtn": "Confirmar",
+    "data_saved": "Dados Salvos"
   }
 }
