@@ -3,6 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Save, XCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {useTranslation} from "react-i18next";
 
 import Api from "@/services/api";
 import Modal from "@/components/Modal";
@@ -20,6 +21,8 @@ interface ModalEntryProps {
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
 const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
+  const {t} = useTranslation();
+
   const form = useForm<EntryFormData>({
     mode: "all",
     resolver: zodResolver(schema),
@@ -47,7 +50,7 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
 
       console.log("Resposta da API: ", response);
 
-      toast.success("Entrada feita com sucesso!");
+      toast.success(t('entryModal.success'));
     } catch (message) {
       toast.error(message as string);
     } finally {
@@ -57,7 +60,7 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
 
   return (
     <Modal.Root name="entry">
-      <Modal.Title Icon={Save}>Nova Entrada</Modal.Title>
+      <Modal.Title Icon={Save}>{t('entryModal.title')}</Modal.Title>
       <Modal.Content>
         <Form form={form} onSubmit={handleSubmit}>
           <Input

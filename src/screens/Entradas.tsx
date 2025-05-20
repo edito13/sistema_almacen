@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, Search, Calendar } from "lucide-react";
+import { Plus } from "lucide-react";
+import { motion } from "framer-motion";
+import {useTranslation} from "react-i18next";
 
 import Api from "@/services/api";
 import format from "@/utils/Format";
@@ -10,7 +12,8 @@ import ModalEntry from "@/components/ModalEntry";
 import { ToastContainer } from "react-toastify";
 
 const Entradas: React.FC = () => {
-  // Estados dos filtros
+  const {t} = useTranslation();
+
   const [origem, setOrigem] = useState("");
   const [dataFim, setDataFim] = useState("");
   const [dataInicio, setDataInicio] = useState("");
@@ -30,110 +33,121 @@ const Entradas: React.FC = () => {
     refetch();
   };
 
+  const filteredData = useMemo(() => {
+    return (data || []).filter((item) => {
+      return (
+          item.equipment.name.toLowerCase().includes(filtroProduto.toLowerCase()) &&
+          item.responsible.toLowerCase().includes(responsavelEntrada.toLowerCase()) &&
+          item.receiver.toLowerCase().includes(responsavelRecebimento.toLowerCase()) &&
+          (origem === "" || item.origin === origem) &&
+          (dataInicio === "" || new Date(item.entry_date) >= new Date(dataInicio)) &&
+          (dataFim === "" || new Date(item.entry_date) <= new Date(dataFim))
+      );
+    });
+  }, [data, filtroProduto, responsavelEntrada, responsavelRecebimento, origem, dataInicio, dataFim]);
+
   const columns = [
-    { name: "PRODUTO", accessor: (item: Entry) => item.equipment.name },
-    { name: "DETALHES", accessor: (item: Entry) => item.details },
-    { name: "CONCEITO", accessor: (item: Entry) => item.concept },
-    { name: "QUANTIDADE", accessor: (item: Entry) => item.quantity },
-    { name: "FORNECEDOR", accessor: (item: Entry) => item.supplier },
-    { name: "RESPONSÁVEL", accessor: (item: Entry) => item.responsible },
+    { name: t('entry.product'), accessor: (item: Entry) => item.equipment.name },
+    { name: t('entry.details'), accessor: (item: Entry) => item.details },
+    { name: t('entry.concept'), accessor: (item: Entry) => item.concept },
+    { name: t('entry.ammount'), accessor: (item: Entry) => item.quantity },
+    { name: t('entry.supplier'), accessor: (item: Entry) => item.supplier },
+    { name: t('entry.responsible'), accessor: (item: Entry) => item.responsible },
     {
-      name: "DATA DE ENTRADA",
+      name: t('entry.entry_date'),
       accessor: (item: Entry) => format.date(new Date(item.entry_date)),
     },
   ];
 
   return (
-    <div className="bg-gray-50 h-full rounded-2xl p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Cabeçalho */}
-        <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">
-            Entradas no Almoxarifado
-          </h1>
-
-          <button
-            className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition"
-            onClick={() => handleOpen()}
+      <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+          }}
+          className="bg-gray-50 h-full rounded-2xl p-6"
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+              variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+              className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center"
           >
-            <Plus size={18} />
-            <span className="font-medium">Nova Entrada</span>
-          </button>
-        </div>
-
-        {/* Filtros */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
-            <input
-              type="text"
-              placeholder="Nome do produto"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              value={filtroProduto}
-              onChange={(e) => setFiltroProduto(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Responsável Entrada"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              value={responsavelEntrada}
-              onChange={(e) => setResponsavelEntrada(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Responsável Recebimento"
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              value={responsavelRecebimento}
-              onChange={(e) => setResponsavelRecebimento(e.target.value)}
-            />
-            <select
-              value={origem}
-              onChange={(e) => setOrigem(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            <h1 className="text-2xl font-bold text-white">{t('entry.title')}</h1>
+            <button
+                className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition"
+                onClick={() => handleOpen()}
             >
-              <option value="">Selecionar origem do fornecedor</option>
-              <option value="nacional">Nacional</option>
-              <option value="internacional">Internacional</option>
-            </select>
-            <div className="relative">
-              <input
-                type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                value={dataInicio}
-                onChange={(e) => setDataInicio(e.target.value)}
-              />
-              <Calendar
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
-            </div>
-            <div className="relative">
-              <input
-                type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                value={dataFim}
-                onChange={(e) => setDataFim(e.target.value)}
-              />
-              <Calendar
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
-            </div>
-          </div>
-
-          <div className="mt-4 flex justify-start">
-            <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md font-medium flex items-center transition duration-200">
-              <Search size={18} className="mr-2" />
-              Buscar
+              <Plus size={18} />
+              <span className="font-medium">{t('entry.button')}</span>
             </button>
-          </div>
-        </div>
+          </motion.div>
 
-        {/* Tabela */}
-        <Table columns={columns} data={data || []} />
-        <ToastContainer position="bottom-right" />
-        {isOpen && <ModalEntry onSave={handleSaveEntry} />}
-      </div>
-    </div>
+          <motion.div
+              variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+              className="bg-white rounded-lg shadow-md p-6 mb-6"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+              <input
+                  type="text"
+                  placeholder={t('entry.product_name')}
+                  className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  value={filtroProduto}
+                  onChange={(e) => setFiltroProduto(e.target.value)}
+              />
+              <input
+                  type="text"
+                  placeholder={t('entry.entry_responsible')}
+                  className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  value={responsavelEntrada}
+                  onChange={(e) => setResponsavelEntrada(e.target.value)}
+              />
+              <input
+                  type="text"
+                  placeholder={t('entry.receive_responsible')}
+                  className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  value={responsavelRecebimento}
+                  onChange={(e) => setResponsavelRecebimento(e.target.value)}
+              />
+              <select
+                  value={origem}
+                  onChange={(e) => setOrigem(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              >
+                <option value="">{t('entry.select_origin')}</option>
+                <option value="nacional">Nacional</option>
+                <option value="internacional">Internacional</option>
+              </select>
+              <div className="relative">
+                <input
+                    type="date"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    value={dataInicio}
+                    onChange={(e) => setDataInicio(e.target.value)}
+                />
+              </div>
+              <div className="relative">
+                <input
+                    type="date"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    value={dataFim}
+                    onChange={(e) => setDataFim(e.target.value)}
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+              variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+          >
+            <Table columns={columns} data={filteredData} />
+          </motion.div>
+
+          <ToastContainer position="bottom-right" />
+          {isOpen && <ModalEntry onSave={handleSaveEntry} />}
+        </div>
+      </motion.div>
   );
 };
 export default Entradas;

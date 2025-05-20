@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
+import {useTranslation} from "react-i18next";
 import usePagination from "@/hooks/usePagination";
 
 interface Columns<T> {
@@ -13,6 +14,7 @@ interface TableProps<T> {
 }
 
 const Table = <T,>({ columns, data }: TableProps<T>) => {
+  const {t} = useTranslation();
   const itensPorPagina = 5;
   const { paginaAtual, handlePage, paginados, totalPaginas } = usePagination({
     itensPorPagina,
@@ -57,7 +59,7 @@ const Table = <T,>({ columns, data }: TableProps<T>) => {
       {/* Paginação */}
       <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
         <p className="text-sm text-gray-700">
-          Mostrando{" "}
+          {t('entry.showing')}{" "}
           <span className="font-medium">
             {(paginaAtual - 1) * itensPorPagina + 1}
           </span>{" "}
@@ -65,7 +67,7 @@ const Table = <T,>({ columns, data }: TableProps<T>) => {
           <span className="font-medium">
             {Math.min(paginaAtual * itensPorPagina, data.length)}
           </span>{" "}
-          de <span className="font-medium">{data.length}</span> resultados
+          de <span className="font-medium">{data.length}</span> {t('entry.results')}
         </p>
         <nav
           className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
