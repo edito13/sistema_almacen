@@ -39,8 +39,6 @@ const SignIn: React.FC = () => {
       navigate("/");
     } catch (message) {
       toast.error(message as string);
-    } finally {
-      // setIsLoading(false);
     }
   };
 

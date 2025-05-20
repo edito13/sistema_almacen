@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NovaEntradaModal from "@/components/NovaEntradaModal.tsx";
+import ModalEntry from "@/components/ModalEntry";
 import {
   Search,
   Plus,
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Tooltip } from "@mui/material";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import useModal from "@/hooks/useModal";
 
 interface StockProps {}
 
@@ -25,7 +26,7 @@ const Stock: React.FC<StockProps> = () => {
   const [sortColumn, setSortColumn] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalEntry = useModal("entry");
 
   // Estados para animações
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
@@ -57,11 +58,8 @@ const Stock: React.FC<StockProps> = () => {
     sequence();
   }, [headerControls, tableControls]);
 
-  const handleSaveEntry = (data: any) => {
-    console.log("Dados salvos:", data);
-    // Aqui você pode adicionar a lógica para salvar os dados,
-    // atualizar a tabela, enviar para API, etc.
-    setIsModalOpen(false);
+  const handleSaveEntry = () => {
+    modalEntry.handleClose();
   };
 
   const itemsPerPage = 5;
@@ -298,7 +296,7 @@ const Stock: React.FC<StockProps> = () => {
 
             <motion.button
               className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition duration-200"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => modalEntry.handleOpen()}
               variants={buttonVariants}
               whileHover="hover"
               whileTap="tap"
@@ -739,13 +737,7 @@ const Stock: React.FC<StockProps> = () => {
 
         {/* Modal com animação */}
         <AnimatePresence>
-          {isModalOpen && (
-            <NovaEntradaModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              onSave={handleSaveEntry}
-            />
-          )}
+          {modalEntry.isOpen && <ModalEntry onSave={handleSaveEntry} />}
         </AnimatePresence>
       </div>
     </div>
