@@ -12,9 +12,10 @@ import schema from "@/schemas/exitSchema";
 import type { ExitFormData } from "@/types/schemas";
 import Form from "../CustomForm";
 import { Divider, Grid } from "@mui/material";
+import { toast } from "react-toastify";
 
 interface ModalExitProps {
-  onSave?: () => void;
+  onSave: () => void;
 }
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
@@ -33,7 +34,6 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
 
   // Verificar preenchimento para habilitar botão
   const isFormValid = form.formState.isValid;
-  const { watch } = form;
 
   const equipments = dataEquipments?.map((equipment) => ({
     value: equipment.id,
@@ -46,9 +46,17 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
     console.log(typeof data.equipment_id);
 
     try {
-      // const response = await Api.exit.createExit(data);
-    } catch (errror) {
-      console.error("Erro ao salvar os dados: ", errror);
+      const response = await Api.exit.createExit(data);
+      if (response?.error) throw response.message;
+
+      console.log("Resposta da API: ", response);
+
+      // Exibir mensagem de sucesso
+      toast.success("Saída feita com sucesso!");
+    } catch (message) {
+      toast.error(message as string);
+    } finally {
+      setTimeout(() => onSave(), 1000);
     }
   };
 
@@ -84,7 +92,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
             name="concept"
             select
             required
-            size={4}
+            size={6}
             options={[
               { value: "Nova Compra", label: "Nova Compra" },
               { value: "Doação", label: "Doação" },
@@ -98,7 +106,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
             name="exit_date"
             type="date"
             required
-            size={4}
+            size={6}
           />
 
           <Input
@@ -106,7 +114,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
             control={form.control}
             name="responsible"
             required
-            size={4}
+            size={12}
             placeholder="Digite o nome do responsável"
           />
 

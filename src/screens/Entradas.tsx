@@ -18,19 +18,17 @@ const Entradas: React.FC = () => {
   const [responsavelEntrada, setResponsavelEntrada] = useState("");
   const [responsavelRecebimento, setResponsavelRecebimento] = useState("");
 
-  const { isOpen, handleOpen } = useModal("entry");
+  const { isOpen, handleOpen, handleClose } = useModal("entry");
 
-  const handleSaveEntry = (data: any) => {
-    console.log("Daddos Salvos: ", data);
-
-    // lógica para salvar os dados,
-    // atualizar a tabela, enviar para API, etc.
-  };
-
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["entries"],
     queryFn: Api.entry.getEntries,
   });
+
+  const handleSaveEntry = () => {
+    handleClose();
+    refetch();
+  };
 
   const columns = [
     { name: "PRODUTO", accessor: (item: Entry) => item.equipment.name },
@@ -132,8 +130,8 @@ const Entradas: React.FC = () => {
 
         {/* Tabela */}
         <Table columns={columns} data={data || []} />
+        <ToastContainer position="bottom-right" />
         {isOpen && <ModalEntry onSave={handleSaveEntry} />}
-        <ToastContainer />
       </div>
     </div>
   );

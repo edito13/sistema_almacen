@@ -7,9 +7,10 @@ import format from "@/utils/Format";
 import Table from "@/components/Table";
 import useModal from "@/hooks/useModal";
 import ModalExit from "@/components/ModalExit";
+import { ToastContainer } from "react-toastify";
 
 const Saidas: React.FC = () => {
-  const modalExit = useModal("exit");
+  const { isOpen, handleOpen, handleClose } = useModal("exit");
 
   const { data, refetch } = useQuery({
     queryKey: ["exits"],
@@ -17,7 +18,8 @@ const Saidas: React.FC = () => {
   });
 
   const handleSaveExit = () => {
-    console.log("dados chegaram aqui");
+    handleClose();
+    refetch();
   };
 
   const columns = [
@@ -45,7 +47,7 @@ const Saidas: React.FC = () => {
           </h1>
           <button
             className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition"
-            onClick={() => modalExit.handleOpen()}
+            onClick={() => handleOpen()}
           >
             <Plus size={18} />
             <span className="font-medium">Nova Saída</span>
@@ -55,12 +57,8 @@ const Saidas: React.FC = () => {
 
       {/* Tabela */}
       <Table columns={columns} data={data || []} />
-      {/* <NovaSaidaModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveEntry}
-      /> */}
-      {modalExit.isOpen && <ModalExit onSave={handleSaveExit} />}
+      <ToastContainer position="bottom-right" />
+      {isOpen && <ModalExit onSave={handleSaveExit} />}
     </div>
   );
 };

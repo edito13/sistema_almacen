@@ -15,7 +15,7 @@ import { Divider, Grid } from "@mui/material";
 import { toast } from "react-toastify";
 
 interface ModalEntryProps {
-  onSave: (data: any) => void;
+  onSave: () => void;
 }
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
@@ -34,7 +34,6 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
 
   // Verificar preenchimento para habilitar botão
   const isFormValid = form.formState.isValid;
-  const { watch } = form;
 
   const equipments = dataEquipments?.map((equipment) => ({
     value: equipment.id,
@@ -42,10 +41,6 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
   }));
 
   const handleSubmit: SubmitHandler<EntryFormData> = async (data) => {
-    alert("Dados Salvos");
-    console.log("Dados Salvos: ", data);
-    console.log(typeof data.equipment_id);
-
     try {
       const response = await Api.entry.createEntry(data);
       if (response?.error) throw response.message;
@@ -55,6 +50,8 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
       toast.success("Entrada feita com sucesso!");
     } catch (message) {
       toast.error(message as string);
+    } finally {
+      setTimeout(() => onSave(), 1000);
     }
   };
 
