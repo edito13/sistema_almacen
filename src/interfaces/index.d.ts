@@ -46,14 +46,17 @@ interface Category {
   name: string;
 }
 
-interface AuthResponse {
-  user: User;
-  token: string;
-  message: string;
+interface ErrorResponse {
+  message?: string;
   error?: boolean;
 }
 
-interface Entry {
+interface AuthResponse extends ErrorResponse {
+  user: User;
+  token: string;
+}
+
+interface Entry extends ErrorResponse {
   id: number;
   equipment_id: number;
   quantity: number;
@@ -68,7 +71,7 @@ interface Entry {
   equipment: Equipment;
 }
 
-interface Exit {
+interface Exit extends ErrorResponse {
   id: number;
   equipment_id: number;
   quantity: number;
@@ -82,7 +85,7 @@ interface Exit {
   equipment: Equipment;
 }
 
-interface Equipment {
+interface Equipment extends ErrorResponse {
   id: number;
   name: string;
   type: string;
@@ -94,7 +97,7 @@ interface Equipment {
   exits?: Exit[];
 }
 
-interface Movement {
+interface Movement extends ErrorResponse {
   id: number;
   concept: string;
   details: string;
