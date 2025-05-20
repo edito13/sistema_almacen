@@ -1,35 +1,87 @@
 import React from "react";
+import { Grid, type GridSize } from "@mui/material";
+import {
+  useFormContext,
+  type FieldPath,
+  type FieldValues,
+  type UseFormReturn,
+} from "react-hook-form";
 
-interface InputProps {
-  type: string;
-  placeholder: string;
-  icon: React.ReactNode;
-  register: any;
-  name: string;
-  error?: string;
+import Select from "./Select";
+import InputBase from "./InputBase";
+
+interface Option {
+  value: string | number;
+  label: string;
 }
 
-const Input: React.FC<InputProps> = (props) => {
-  const { type, placeholder, icon, name, error, register } = props;
+interface BaseProps<T extends FieldValues = FieldValues> {
+  name: FieldPath<T>;
+  label: string;
+  size?: GridSize;
+  required?: boolean;
+  placeholder?: string;
+  icon?: React.ReactNode;
+  control: UseFormReturn<T>["control"];
+}
+
+interface InputFieldProps<T extends FieldValues = FieldValues>
+  extends BaseProps<T> {
+  select?: false;
+  type?: string;
+}
+
+interface SelectFieldProps<T extends FieldValues = FieldValues>
+  extends BaseProps<T> {
+  select: true;
+  options: Option[];
+}
+
+type InputProps<T extends FieldValues = FieldValues> =
+  | InputFieldProps<T>
+  | SelectFieldProps<T>;
+
+const Input: React.FC<InputProps> = <T extends FieldValues = FieldValues>({
+  label,
+  required,
+  select = false,
+  ...props
+}: InputProps<T>) => {
+  const { name, size, icon, placeholder } = props;
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<T>();
+
+  const error = errors[name]?.message as string | undefined;
 
   return (
-    <div className="space-y-1">
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-          {icon}
-        </div>
-        <input
-          type={type}
-          placeholder={placeholder}
-          className={`w-full border ${
-            error ? "border-red-500" : "border-gray-300"
-          } rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500`}
-          {...register(name)}
-          style={{ paddingLeft: "2.5rem" }}
-        />
+    <Grid size={size}>
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-gray-700">
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+        {select ? (
+          <Select
+            name={name}
+            icon={icon}
+            error={error}
+            register={register}
+            placeholder={placeholder}
+            options={(props as SelectFieldProps<T>).options}
+          />
+        ) : (
+          <InputBase
+            name={name}
+            icon={icon}
+            error={error}
+            register={register}
+            placeholder={placeholder || ""}
+            type={(props as InputFieldProps<T>).type || "text"}
+          />
+        )}
       </div>
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-    </div>
+    </Grid>
   );
 };
 

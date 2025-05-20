@@ -1,46 +1,65 @@
-import React, { useState } from "react";
-import DashItem from "@/components/DashItem";
+import React, { useState, useMemo } from "react";
 import {
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
   FaBox,
   FaExchangeAlt,
 } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface DashboardProps {}
+import Api from "@/services/api";
+import DashItem from "@/components/DashItem";
 
-const Dashboard: React.FC<DashboardProps> = () => {
-  // Estado para controlar se os itens já foram carregados (para animar de forma sequencial)
+const Dashboard: React.FC = () => {
   const [itemsLoaded, setItemsLoaded] = useState(false);
 
-  // Dados do dashboard
-  const dashboardItems = [
-    {
-      title: "Total em Stock",
-      value: 100,
-      color: "black",
-      Icon: FaBox,
-    },
-    {
-      title: "Entradas de hoje",
-      value: 0,
-      color: "orange",
-      Icon: FaAngleDoubleRight,
-    },
-    {
-      title: "Saídas de hoje",
-      value: 0,
-      color: "green",
-      Icon: FaAngleDoubleLeft,
-    },
-    {
-      title: "Movimentos do mês",
-      value: 100,
-      color: "blue",
-      Icon: FaExchangeAlt,
-    },
-  ];
+  const { data: dataEntries, isLoading: isLoadingEntries } = useQuery({
+    queryKey: ["entries"],
+    queryFn: Api.entry.getEntries,
+  });
+
+  const { data: dataExits, isLoading: isLoadingExits } = useQuery({
+    queryKey: ["exits"],
+    queryFn: Api.exit.getExits,
+  });
+
+  const { data: dataMovements, isLoading: isLoadingMovements } = useQuery({
+    queryKey: ["movements"],
+    queryFn: Api.movement.getMovements,
+  });
+
+  const isLoading = isLoadingEntries || isLoadingExits || isLoadingMovements;
+
+  const dashboardItems = useMemo(
+    () => [
+      {
+        title: "Total em Stock",
+        value: 100,
+        color: "black",
+        Icon: FaBox,
+      },
+      {
+        title: "Entradas de hoje",
+        value: dataEntries?.length || 0,
+        color: "orange",
+        Icon: FaAngleDoubleRight,
+      },
+      {
+        title: "Saídas de hoje",
+        value: dataExits?.length || 0,
+        color: "green",
+        Icon: FaAngleDoubleLeft,
+      },
+      {
+        title: "Movimentos do mês",
+        value: dataMovements?.length || 0,
+        color: "blue",
+        Icon: FaExchangeAlt,
+      },
+    ],
+    [dataEntries, dataExits, dataMovements]
+  );
 
   // Animação principal do container
   const containerVariants = {
@@ -74,22 +93,28 @@ const Dashboard: React.FC<DashboardProps> = () => {
           mass: 0.8,
         }}
       >
-        {dashboardItems.map((item, index) => (
-          <DashItem
-            key={index}
-            title={item.title}
-            value={item.value}
-            color={item.color as "black" | "blue" | "green" | "orange"}
-            Icon={item.Icon}
-            index={index}
-            isLoaded={itemsLoaded}
-          />
-        ))}
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={index}
+                className="w-[260px] h-[120px] bg-gray-200 rounded-lg animate-pulse"
+              />
+            ))
+          : dashboardItems.map((item, index) => (
+              <DashItem
+                key={index}
+                title={item.title}
+                value={item.value}
+                color={item.color as "black" | "blue" | "green" | "orange"}
+                Icon={item.Icon}
+                index={index}
+                isLoaded={itemsLoaded}
+              />
+            ))}
       </motion.div>
 
-      {/* Indicador de atividade recente - elemento extra com animação */}
       <AnimatePresence>
-        {itemsLoaded && (
+        {!isLoading && itemsLoaded && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

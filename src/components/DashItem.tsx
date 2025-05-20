@@ -16,7 +16,6 @@ const DashItem: React.FC<DashItemProps> = ({
   color,
   Icon,
   index,
-  isLoaded,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -64,7 +63,7 @@ const DashItem: React.FC<DashItemProps> = ({
       },
     },
     hover: {
-      y: -5,
+      y: -1,
       boxShadow:
         "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
       transition: {
@@ -85,8 +84,7 @@ const DashItem: React.FC<DashItemProps> = ({
       },
     },
     hover: {
-      scale: 1.2,
-      rotate: isLoaded ? 24 : 0,
+      scale: 1.1,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -97,7 +95,7 @@ const DashItem: React.FC<DashItemProps> = ({
 
   return (
     <motion.div
-      className="flex-1 relative bg-white rounded-lg shadow-md p-4"
+      className="flex-1 relative rounded-lg"
       variants={itemVariants}
       initial="hidden"
       animate="visible"
@@ -105,53 +103,57 @@ const DashItem: React.FC<DashItemProps> = ({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
+      {/* Ícone fora da área que será cortada */}
       <motion.div
-        className={`absolute top-[-10px] left-3 p-4 rounded-lg ${colors[color]} text-white`}
+        className={`absolute top-[-12px] left-3 p-4 rounded-lg ${colors[color]} text-white z-10`}
         variants={iconVariants}
         animate={isHovered ? "hover" : "normal"}
       >
         <Icon size={22} />
       </motion.div>
 
-      {/* Efeito de brilho ao passar o mouse */}
-      {isHovered && (
-        <motion.div
-          className={`absolute inset-0 opacity-10 ${colors[color]}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        />
-      )}
-
-      <div className="flex-1 flex justify-end">
-        <div className="self-end text-right">
-          <motion.p
-            className="text-gray-400 text-lg"
-            animate={{
-              y: isHovered ? -2 : 0,
-              transition: { duration: 0.2 },
-            }}
-          >
-            {title}
-          </motion.p>
-
-          <motion.p
-            className={`text-3xl font-bold ${textColors[color]}`}
-            variants={counterVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {value}
-          </motion.p>
-
-          {/* Linha decorativa que aparece no hover */}
+      {/* Container com border-radius e overflow-hidden */}
+      <div className="relative bg-white shadow-xs rounded-lg overflow-hidden p-4">
+        {/* Efeito de brilho ao passar o mouse */}
+        {isHovered && (
           <motion.div
-            className={`h-1 ${colors[color]} rounded-full mt-2`}
-            initial={{ width: 0 }}
-            animate={{ width: isHovered ? "100%" : "0%" }}
+            className={`absolute inset-0 ${colors[color]}`}
+            style={{ opacity: 0.1, zIndex: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           />
+        )}
+
+        <div className="flex-1 flex justify-end relative z-10">
+          <div className="self-end text-right">
+            <motion.p
+              className="text-gray-400 text-lg"
+              animate={{
+                y: isHovered ? -2 : 0,
+                transition: { duration: 0.2 },
+              }}
+            >
+              {title}
+            </motion.p>
+
+            <motion.p
+              className={`text-3xl font-bold ${textColors[color]}`}
+              variants={counterVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {value}
+            </motion.p>
+
+            <motion.div
+              className={`h-1 ${colors[color]} rounded-full mt-2`}
+              initial={{ width: 0 }}
+              animate={{ width: isHovered ? "100%" : "0%" }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
         </div>
       </div>
     </motion.div>
