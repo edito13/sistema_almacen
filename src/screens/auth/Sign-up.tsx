@@ -85,39 +85,39 @@ const SignUp: React.FC = () => {
             {/* Campo de Nome */}
             <Input
               type="text"
-              placeholder="Nome do usuário"
-              icon={<User size={18} />}
-              register={register}
               name="name"
+              icon={<User size={18} />}
+              register={register("name")}
+              placeholder="Nome do usuário"
               error={errors.name?.message}
             />
 
             {/* Campo de Email */}
             <Input
               type="email"
+              name="email"
               placeholder="Email"
               icon={<Mail size={18} />}
-              register={register}
-              name="email"
+              register={register("email")}
               error={errors.email?.message}
             />
 
             {/* Campo de Senha */}
             <Input
               type="password"
+              name="password"
               placeholder="Senha"
               icon={<Lock size={18} />}
-              register={register}
-              name="password"
+              register={register("password")}
               error={errors.password?.message}
             />
 
             <Input
               type="password"
-              placeholder="Confirmar senha"
-              icon={<Lock size={18} />}
-              register={register}
               name="confirmPassword"
+              icon={<Lock size={18} />}
+              placeholder="Confirmar senha"
+              register={register("confirmPassword")}
               error={errors.confirmPassword?.message}
             />
 

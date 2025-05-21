@@ -104,10 +104,6 @@ const Entradas: React.FC = () => {
                 value={dataInicio}
                 onChange={(e) => setDataInicio(e.target.value)}
               />
-              <Calendar
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
             </div>
             <div className="relative">
               <input
@@ -116,10 +112,7 @@ const Entradas: React.FC = () => {
                 value={dataFim}
                 onChange={(e) => setDataFim(e.target.value)}
               />
-              <Calendar
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
+
             </div>
           </div>
 
