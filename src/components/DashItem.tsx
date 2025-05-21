@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 interface DashItemProps {
   title: string;
   value: number;
-  color: "black" | "blue" | "green" | "orange";
+  color: Colors;
   Icon: React.ElementType;
+  to: string;
   index: number;
   isLoaded: boolean;
 }
@@ -16,6 +18,7 @@ const DashItem: React.FC<DashItemProps> = ({
   color,
   Icon,
   index,
+  to,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -24,7 +27,7 @@ const DashItem: React.FC<DashItemProps> = ({
     black: "bg-black",
     blue: "bg-blue-500",
     green: "bg-green-500",
-    orange: "bg-orange-500",
+    red: "bg-red-500",
   };
 
   // Cores do texto baseadas no hover
@@ -32,7 +35,7 @@ const DashItem: React.FC<DashItemProps> = ({
     black: isHovered ? "text-black" : "text-gray-700",
     blue: isHovered ? "text-blue-600" : "text-gray-700",
     green: isHovered ? "text-green-600" : "text-gray-700",
-    orange: isHovered ? "text-orange-600" : "text-gray-700",
+    red: isHovered ? "text-red-600" : "text-gray-700",
   };
 
   // Animação de contagem
@@ -94,7 +97,8 @@ const DashItem: React.FC<DashItemProps> = ({
   };
 
   return (
-    <motion.div
+    <motion.a
+      href={to}
       className="flex-1 relative rounded-lg"
       variants={itemVariants}
       initial="hidden"
@@ -156,7 +160,7 @@ const DashItem: React.FC<DashItemProps> = ({
           </div>
         </div>
       </div>
-    </motion.div>
+    </motion.a>
   );
 };
 

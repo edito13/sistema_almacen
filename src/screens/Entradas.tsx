@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
 import { Plus, Search, Calendar } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Api from "@/services/api";
 import format from "@/utils/Format";
-import Table from "@/components/Table";
 import useModal from "@/hooks/useModal";
+
+import Table from "@/components/Table";
 import ModalEntry from "@/components/ModalEntry";
-import { ToastContainer } from "react-toastify";
 
 const Entradas: React.FC = () => {
   // Estados dos filtros
@@ -18,6 +19,7 @@ const Entradas: React.FC = () => {
   const [responsavelEntrada, setResponsavelEntrada] = useState("");
   const [responsavelRecebimento, setResponsavelRecebimento] = useState("");
 
+  const queryClient = useQueryClient();
   const { isOpen, handleOpen, handleClose } = useModal("entry");
 
   const { data, refetch } = useQuery({
@@ -28,6 +30,7 @@ const Entradas: React.FC = () => {
   const handleSaveEntry = () => {
     handleClose();
     refetch();
+    queryClient.invalidateQueries({ queryKey: ["equipments"] });
   };
 
   const columns = [

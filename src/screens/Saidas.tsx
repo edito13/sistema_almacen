@@ -1,15 +1,17 @@
 import React from "react";
 import { Plus } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Api from "@/services/api";
 import format from "@/utils/Format";
-import Table from "@/components/Table";
 import useModal from "@/hooks/useModal";
+
+import Table from "@/components/Table";
 import ModalExit from "@/components/ModalExit";
-import { ToastContainer } from "react-toastify";
 
 const Saidas: React.FC = () => {
+  const queryClient = useQueryClient();
   const { isOpen, handleOpen, handleClose } = useModal("exit");
 
   const { data, refetch } = useQuery({
@@ -20,6 +22,7 @@ const Saidas: React.FC = () => {
   const handleSaveExit = () => {
     handleClose();
     refetch();
+    queryClient.invalidateQueries({ queryKey: ["equipments"] });
   };
 
   const columns = [
