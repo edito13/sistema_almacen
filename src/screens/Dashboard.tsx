@@ -40,24 +40,28 @@ const Dashboard: React.FC = () => {
         value: 100,
         color: "black",
         Icon: FaBox,
+        to: "/stock",
       },
       {
         title: t('dash.today_entries'),
         value: dataEntries?.length || 0,
-        color: "orange",
+        color: "green",
         Icon: FaAngleDoubleRight,
+        to: "/entradas",
       },
       {
         title: t('dash.today_exits'),
         value: dataExits?.length || 0,
-        color: "green",
+        color: "red",
         Icon: FaAngleDoubleLeft,
+        to: "/saidas",
       },
       {
         title: t('dash.moves'),
         value: dataMovements?.length || 0,
         color: "blue",
         Icon: FaExchangeAlt,
+        to: "/",
       },
     ],
     [dataEntries, dataExits, dataMovements]
@@ -105,12 +109,13 @@ const Dashboard: React.FC = () => {
           : dashboardItems.map((item, index) => (
               <DashItem
                 key={index}
+                to={item.to}
+                index={index}
+                Icon={item.Icon}
                 title={item.title}
                 value={item.value}
-                color={item.color as "black" | "blue" | "green" | "orange"}
-                Icon={item.Icon}
-                index={index}
                 isLoaded={itemsLoaded}
+                color={item.color as Colors}
               />
             ))}
       </motion.div>
