@@ -7,12 +7,14 @@ import {
 } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
+import {useTranslation} from "react-i18next";
 
 import Api from "@/services/api";
 import DashItem from "@/components/DashItem";
 
 const Dashboard: React.FC = () => {
   const [itemsLoaded, setItemsLoaded] = useState(false);
+  const {t} = useTranslation();
 
   const { data: dataEntries, isLoading: isLoadingEntries } = useQuery({
     queryKey: ["entries"],
@@ -34,25 +36,25 @@ const Dashboard: React.FC = () => {
   const dashboardItems = useMemo(
     () => [
       {
-        title: "Total em Stock",
+        title: t('dash.stock_total'),
         value: 100,
         color: "black",
         Icon: FaBox,
       },
       {
-        title: "Entradas de hoje",
+        title: t('dash.today_entries'),
         value: dataEntries?.length || 0,
         color: "orange",
         Icon: FaAngleDoubleRight,
       },
       {
-        title: "Saídas de hoje",
+        title: t('dash.today_exits'),
         value: dataExits?.length || 0,
         color: "green",
         Icon: FaAngleDoubleLeft,
       },
       {
-        title: "Movimentos do mês",
+        title: t('dash.moves'),
         value: dataMovements?.length || 0,
         color: "blue",
         Icon: FaExchangeAlt,
@@ -123,7 +125,7 @@ const Dashboard: React.FC = () => {
             className="mt-5 p-4 bg-white rounded-lg shadow-md"
           >
             <h3 className="text-xl font-medium text-gray-700 mb-2">
-              Atividade Recente
+              {t('dash.recent')}
             </h3>
             <motion.div
               initial={{ width: "0%" }}
@@ -132,8 +134,7 @@ const Dashboard: React.FC = () => {
               className="h-1 bg-blue-500 rounded-full mb-4"
             />
             <p className="text-gray-500">
-              Todo o sistema funcionando normalmente.
-            </p>
+              {t('dash.all')}            </p>
           </motion.div>
         )}
       </AnimatePresence>

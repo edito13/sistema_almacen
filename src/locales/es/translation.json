@@ -84,6 +84,7 @@
     "concept": "Concepto",
     "select_concept": "Seleccione el Concepto",
     "responsible": "Responsable",
+    "type_responsible": "Ingrese el Responsable",
     "entry_date": "Fecha de Entrada",
     "cancelBtn": "Cancelar",
     "confirmBtn": "Confirmar"
@@ -105,5 +106,26 @@
     "cancelBtn": "Cancelar",
     "confirmBtn": "Confirmar",
     "data_saved": "Datos Guardados"
+  },
+  "sidebar": {
+    "dashboard": "Panel de Control",
+    "stock": "Inventario General",
+    "entries": "Entradas",
+    "exits": "Salidas",
+    "products": "Productos",
+    "code": "Código",
+    "family": "Familia",
+    "set": "Conjunto",
+    "areas": "Áreas",
+    "clients": "Proveedores/Clientes",
+    "configs": "Configuración"
+  },
+  "dash": {
+    "stock_total": "Total en Inventario",
+    "today_entries": "Entradas de hoy",
+    "today_exits": "Salidas de hoy",
+    "moves": "Movimientos del mes",
+    "recent": "Actividad Reciente",
+    "all": "Todo el sistema funcionando normalmente."
   }
 }

@@ -84,6 +84,7 @@
     "concept": "Conceito",
     "select_concept": "Selecione o Conceito",
     "responsible": "Responsável",
+    "type_responsible": "Digite o Responsável",
     "entry_date": "Data de Entrada",
     "cancelBtn": "Cancelar",
     "confirmBtn": "Confirmar"
@@ -105,5 +106,26 @@
     "cancelBtn": "Cancelar",
     "confirmBtn": "Confirmar",
     "data_saved": "Dados Salvos"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "stock": "Stock Geral",
+    "entries": "Entradas",
+    "exits": "Saidas",
+    "products": "Produtos",
+    "code": "Código",
+    "family": "Família",
+    "set": "Conjunto",
+    "areas": "Áreas",
+    "clients": "Provedores/Clientes",
+    "configs": "Configurações"
+  },
+  "dash": {
+    "stock_total": "Total em Stock",
+    "today_entries": "Entradas de hoje",
+    "today_exits": "Saídas de hoje",
+    "moves": "Movimentos do mês",
+    "recent": "Atividade Recente",
+    "all": "Todo o sistema funcionando normalmente."
   }
 }
