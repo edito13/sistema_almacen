@@ -5,10 +5,14 @@ import {
   FaBox,
   FaExchangeAlt,
 } from "react-icons/fa";
+import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { motion, AnimatePresence } from "framer-motion";
+import { IconButton, Tooltip } from "@mui/material";
+import { ArrowDown, ArrowUp, Download, Filter } from "lucide-react";
 
 import Api from "@/services/api";
+import format from "@/utils/Format";
+import Table from "@/components/Table";
 import DashItem from "@/components/DashItem";
 
 const Dashboard: React.FC = () => {
@@ -27,6 +31,7 @@ const Dashboard: React.FC = () => {
   const { data: dataMovements, isLoading: isLoadingMovements } = useQuery({
     queryKey: ["movements"],
     queryFn: Api.movement.getMovements,
+    refetchOnWindowFocus: true,
   });
 
   const isLoading = isLoadingEntries || isLoadingExits || isLoadingMovements;
@@ -78,6 +83,30 @@ const Dashboard: React.FC = () => {
     },
   };
 
+  const columns = [
+    {
+      name: "",
+      accessor: (item: Movement) => (
+        <div className="flex items-center gap-2">
+          {item.type === "entry" ? (
+            <ArrowUp className="text-green-500 w-5 h-5" />
+          ) : (
+            <ArrowDown className="text-red-500 w-5 h-5" />
+          )}
+        </div>
+      ),
+    },
+    { name: "PRODUTO", accessor: (item: Movement) => item.equipment.name },
+    { name: "DETALHES", accessor: (item: Movement) => item.details },
+    { name: "CONCEITO", accessor: (item: Movement) => item.concept },
+    { name: "QUANTIDADE", accessor: (item: Movement) => item.quantity },
+    { name: "RESPONSÁVEL", accessor: (item: Movement) => item.responsible },
+    {
+      name: "DATA DE MOVIMENTO",
+      accessor: (item: Movement) => format.date(new Date(item.movement_date)),
+    },
+  ];
+
   return (
     <motion.div
       initial="hidden"
@@ -87,7 +116,7 @@ const Dashboard: React.FC = () => {
       className="pt-3"
     >
       <motion.div
-        className="flex flex-wrap gap-3"
+        className="flex flex-wrap gap-7"
         initial={{ y: 20 }}
         animate={{ y: 0 }}
         transition={{
@@ -118,30 +147,48 @@ const Dashboard: React.FC = () => {
             ))}
       </motion.div>
 
-      <AnimatePresence>
-        {!isLoading && itemsLoaded && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
-            className="mt-5 p-4 bg-white rounded-lg shadow-md"
-          >
-            <h3 className="text-xl font-medium text-gray-700 mb-2">
-              Atividade Recente
-            </h3>
-            <motion.div
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ delay: 1.2, duration: 1.5, ease: "easeInOut" }}
-              className="h-1 bg-blue-500 rounded-full mb-4"
-            />
-            <p className="text-gray-500">
-              Todo o sistema funcionando normalmente.
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.div
+        className="mt-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ delay: 0.4, duration: 0.8, ease: "easeInOut" }}
+      >
+        <div className="flex justify-between items-center">
+          <h3 className="text-2xl font-semibold text-gray-700">
+            Movimentos recentes
+          </h3>
+          <div className="flex space-x-2">
+            <Tooltip title="Filtrar" arrow>
+              <motion.button
+                className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.9, y: 0 }}
+              >
+                <IconButton>
+                  <Filter size={18} />
+                </IconButton>
+              </motion.button>
+            </Tooltip>
+            <Tooltip title="Baixar movimentos" arrow>
+              <motion.button
+                className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.9, y: 0 }}
+              >
+                <IconButton>
+                  <Download size={18} />
+                </IconButton>
+              </motion.button>
+            </Tooltip>
+          </div>
+        </div>
+        <Table
+          data={dataMovements || []}
+          columns={columns}
+          itensPorPagina={10}
+        />
+      </motion.div>
     </motion.div>
   );
 };

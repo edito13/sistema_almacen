@@ -31,6 +31,10 @@ const Entradas: React.FC = () => {
     handleClose();
     refetch();
     queryClient.invalidateQueries({ queryKey: ["equipments"] });
+    queryClient.invalidateQueries({
+      queryKey: ["movements"],
+      refetchType: "all",
+    });
   };
 
   const columns = [

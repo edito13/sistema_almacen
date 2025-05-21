@@ -10,10 +10,10 @@ interface Columns<T> {
 interface TableProps<T> {
   data: T[];
   columns: Columns<T>[];
+  itensPorPagina?: number;
 }
 
-const Table = <T,>({ columns, data }: TableProps<T>) => {
-  const itensPorPagina = 5;
+const Table = <T,>({ columns, data, itensPorPagina = 5 }: TableProps<T>) => {
   const { paginaAtual, handlePage, paginados, totalPaginas } = usePagination({
     itensPorPagina,
     filtrados: data,
@@ -35,22 +35,30 @@ const Table = <T,>({ columns, data }: TableProps<T>) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {paginados.map((item: T, i) => (
-            <tr key={i} className="hover:bg-gray-50">
-              {columns.map((col, index) => (
-                <td
-                  key={index}
-                  className={`px-6 py-4 whitespace-nowrap text-sm ${
-                    col.name === "PRODUTO"
-                      ? "font-medium text-gray-900"
-                      : "text-gray-700"
-                  }`}
-                >
-                  {col.accessor(item)}
-                </td>
-              ))}
+          {data.length ? (
+            paginados.map((item: T, i) => (
+              <tr key={i} className="hover:bg-gray-50">
+                {columns.map((col, index) => (
+                  <td
+                    key={index}
+                    className={`px-6 py-4 whitespace-nowrap text-sm ${
+                      col.name === "PRODUTO"
+                        ? "font-medium text-gray-900"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {col.accessor(item)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={columns.length} className="text-center py-4">
+                Nenhum registro foi feito ainda...
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
