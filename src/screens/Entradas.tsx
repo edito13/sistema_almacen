@@ -52,13 +52,13 @@ const Entradas: React.FC = () => {
     <div className="bg-gray-50 h-full rounded-2xl p-6">
       <div className="max-w-7xl mx-auto">
         {/* Cabeçalho */}
-        <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-blue-500 to-blue-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-white">
             {t('entry.title')}
           </h1>
 
           <button
-            className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition"
+            className="bg-white text-blue-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-blue-50 transition"
             onClick={() => handleOpen()}
           >
             <Plus size={18} />
@@ -72,28 +72,28 @@ const Entradas: React.FC = () => {
             <input
               type="text"
               placeholder= {t('entry.product_name')}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={filtroProduto}
               onChange={(e) => setFiltroProduto(e.target.value)}
             />
             <input
               type="text"
               placeholder= {t('entry.entry_responsible')}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={responsavelEntrada}
               onChange={(e) => setResponsavelEntrada(e.target.value)}
             />
             <input
               type="text"
               placeholder= {t('entry.receive_responsible')}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={responsavelRecebimento}
               onChange={(e) => setResponsavelRecebimento(e.target.value)}
             />
             <select
               value={origem}
               onChange={(e) => setOrigem(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value=""> {t('entry.select_origin')}</option>
               <option value="nacional">Nacional</option>
@@ -102,7 +102,7 @@ const Entradas: React.FC = () => {
             <div className="relative">
               <input
                 type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={dataInicio}
                 onChange={(e) => setDataInicio(e.target.value)}
               />
@@ -110,7 +110,7 @@ const Entradas: React.FC = () => {
             <div className="relative">
               <input
                 type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={dataFim}
                 onChange={(e) => setDataFim(e.target.value)}
               />

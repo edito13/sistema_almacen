@@ -4,14 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, ToastContainer } from "react-toastify";
 import { Mail, Lock, Loader, User } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
 import Input from "@/components/InputBase";
 import schema from "@/schemas/registerSchema";
 import type { RegisterFormData } from "@/types/schemas";
+import LanguageSelector from "@/components/LanguageSelector.tsx";
 
 const SignUp: React.FC = () => {
+  const { t } = useTranslation();
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
@@ -36,7 +39,7 @@ const SignUp: React.FC = () => {
       const data = await Api.auth.register(payload);
       if (data?.error) throw data.message;
 
-      toast.success("Conta criada com sucesso.");
+      toast.success(t('register.success'));
 
       signIn(data);
       navigate("/");
@@ -48,114 +51,118 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center relative flex flex-col items-center justify-center px-4"
-      style={{ backgroundImage: "url('/assets/img/bg_talta.jpg')" }}
-    >
-      <div className="absolute inset-0 bg-black/60 z-0"></div>
+      <div
+          className="min-h-screen bg-cover bg-center relative flex flex-col items-center justify-center px-4"
+          style={{ backgroundImage: "url('/assets/img/bg_talta.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-black/60 z-0"></div>
 
-      {/* Conteúdo principal */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-md">
-        <div className="mb-8 text-center">
-          <h1 className="text-white text-4xl font-bold leading-tight drop-shadow-md">
-            Sistema de Gestão de Stock
-          </h1>
-          <h2 className="text-white text-2xl mt-2 drop-shadow-md">
-            Unic Sala de TI
-          </h2>
+        <div className="absolute top-4 right-4">
+          <LanguageSelector />
         </div>
 
-        {/* Card de login */}
-        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden p-10">
-          {/* Cabeçalho */}
-          <div>
-            <h3 className="text-orange-500 text-2xl font-bold">
-              Criar uma conta
-            </h3>
-            <p className="text-sm">
-              Já tem uma conta?{" "}
-              <Link className="text-orange-500 font-bold" to="/sign-in">
-                Fazer login
-              </Link>
-            </p>
+        {/* Conteúdo principal */}
+        <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-md">
+          <div className="mb-8 text-center">
+            <h1 className="text-white text-4xl font-bold leading-tight drop-shadow-md">
+              {t('register.title')}
+            </h1>
+            <h2 className="text-white text-2xl mt-2 drop-shadow-md">
+              {t('register.subTitle')}
+            </h2>
           </div>
 
-          {/* Formulário */}
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-5 space-y-5">
-            {/* Campo de Nome */}
-            <Input
-              type="text"
-              name="name"
-              icon={<User size={18} />}
-              register={register("name")}
-              placeholder="Nome do usuário"
-              error={errors.name?.message}
-            />
-
-            {/* Campo de Email */}
-            <Input
-              type="email"
-              name="email"
-              placeholder="Email"
-              icon={<Mail size={18} />}
-              register={register("email")}
-              error={errors.email?.message}
-            />
-
-            {/* Campo de Senha */}
-            <Input
-              type="password"
-              name="password"
-              placeholder="Senha"
-              icon={<Lock size={18} />}
-              register={register("password")}
-              error={errors.password?.message}
-            />
-
-            <Input
-              type="password"
-              name="confirmPassword"
-              icon={<Lock size={18} />}
-              placeholder="Confirmar senha"
-              register={register("confirmPassword")}
-              error={errors.confirmPassword?.message}
-            />
-
-            {/* Link "Esqueceu a senha" */}
-            <div className="text-right">
-              <Link to="/forgot-password" className="text-sm text-orange-500">
-                Esqueceu a senha?
-              </Link>
+          {/* Card de login */}
+          <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden p-10">
+            {/* Cabeçalho */}
+            <div>
+              <h3 className="text-blue-500 text-2xl font-bold">
+                {t('register.create')}
+              </h3>
+              <p className="text-sm">
+                {t('register.have_account')}{" "}
+                <Link className="text-blue-500 font-bold" to="/sign-in">
+                  {t('register.login')}
+                </Link>
+              </p>
             </div>
 
-            {/* Botão de Login */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-orange-500 text-white font-semibold uppercase py-3 rounded-lg hover:bg-orange-600 transition flex items-center justify-center disabled:bg-orange-400"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader className="animate-spin mr-2" size={18} />
-                  Processando...
-                </>
-              ) : (
-                "Criar conta"
-              )}
-            </button>
-            <ToastContainer position="bottom-right" />
-          </form>
+            {/* Formulário */}
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-5 space-y-5">
+              {/* Campo de Nome */}
+              <Input
+                  type="text"
+                  name="name"
+                  icon={<User size={18} />}
+                  register={register("name")}
+                  placeholder={t('register.name')}
+                  error={errors.name?.message}
+              />
+
+              {/* Campo de Email */}
+              <Input
+                  type="email"
+                  name="email"
+                  placeholder={t('register.email')}
+                  icon={<Mail size={18} />}
+                  register={register("email")}
+                  error={errors.email?.message}
+              />
+
+              {/* Campo de Senha */}
+              <Input
+                  type="password"
+                  name="password"
+                  placeholder={t('register.password')}
+                  icon={<Lock size={18} />}
+                  register={register("password")}
+                  error={errors.password?.message}
+              />
+
+              <Input
+                  type="password"
+                  name="confirmPassword"
+                  icon={<Lock size={18} />}
+                  placeholder={t('register.confirm_password')}
+                  register={register("confirmPassword")}
+                  error={errors.confirmPassword?.message}
+              />
+
+              {/* Link "Esqueceu a senha" */}
+              <div className="text-right">
+                <Link to="/forgot-password" className="text-sm text-blue-500">
+                  {t('register.forgot_password')}
+                </Link>
+              </div>
+
+              {/* Botão de Login */}
+              <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-500 text-white font-semibold uppercase py-3 rounded-lg hover:bg-blue-600 transition flex items-center justify-center disabled:bg-blue-400"
+              >
+                {isSubmitting ? (
+                    <>
+                      <Loader className="animate-spin mr-2" size={18} />
+                      {t('register.loading')}
+                    </>
+                ) : (
+                    t('register.submit')
+                )}
+              </button>
+              <ToastContainer position="bottom-right" />
+            </form>
+          </div>
+        </div>
+
+        {/* Versão do sistema */}
+        <div className="mt-4 text-white text-sm drop-shadow-md">{t('login.version')}</div>
+
+        {/* Footer */}
+        <div className="absolute bottom-4 left-4 text-white text-sm z-10 drop-shadow-md">
+          © {currentYear} - {t('login.rights')}
         </div>
       </div>
-
-      {/* Versão do sistema */}
-      <div className="mt-4 text-white text-sm drop-shadow-md">Versão 1.0.0</div>
-
-      {/* Footer */}
-      <div className="absolute bottom-4 left-4 text-white text-sm z-10 drop-shadow-md">
-        © {currentYear} - Todos os direitos reservados
-      </div>
-    </div>
   );
 };
 
