@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Stock from "@/screens/Stock";
 import Areas from "@/screens/Areas";
 import Config from "@/screens/Config";
-import Codigo from "@/screens/Codigo";
+import Category from "@/screens/Category.tsx";
 import Saidas from "@/screens/Saidas";
 import Familia from "@/screens/Familia";
 import Conjunto from "@/screens/Conjunto";
@@ -38,7 +38,7 @@ const Index: React.FC<IndexProps> = () => {
           <Route path="areas" element={<Areas />} />
           <Route path="saidas" element={<Saidas />} />
           <Route path="config" element={<Config />} />
-          <Route path="codigo" element={<Codigo />} />
+          <Route path="categoria" element={<Category />} />
           <Route path="familia" element={<Familia />} />
           <Route path="produtos" element={<Produtos />} />
           <Route path="clientes" element={<Clientes />} />

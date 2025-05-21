@@ -2,16 +2,16 @@
   "login": {
     "title": "Sistema de Gestión",
     "subTitle": "Dirección de Sistemas",
-    "accessAcc": "Acceda a su cuenta",
+    "accessAcc": "Accede a tu cuenta",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "submit": "Iniciar sesión",
     "loading": "Procesando...",
-    "forgot_password": "¿Olvidó su contraseña?",
-    "no_account": "¿No tiene una cuenta todavía?",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "no_account": "¿No tienes una cuenta aún?",
     "go_to_register": "Crear cuenta",
     "version": "Versión 1.0.0",
-    "rights" : "Todos los derechos reservados",
+    "rights": "Todos los derechos reservados",
     "errors": {
       "name_required": "El nombre es obligatorio",
       "name_too_short": "El nombre debe tener al menos 3 caracteres",
@@ -34,12 +34,12 @@
     "confirm_password": "Confirmar contraseña",
     "submit": "Crear cuenta",
     "loading": "Procesando...",
-    "have_account": "¿Ya tiene una cuenta?",
+    "have_account": "¿Ya tienes una cuenta?",
     "success": "Cuenta creada con éxito",
-    "forgot_password": "¿Olvidó su contraseña?"
+    "forgot_password": "¿Olvidaste tu contraseña?"
   },
   "entry": {
-    "title": "Entradas de Almacén",
+    "title": "Entradas del Almacén",
     "button": "Nueva Entrada",
     "product_name": "Nombre del Producto",
     "entry_responsible": "Responsable de la Entrada",
@@ -56,7 +56,7 @@
     "results": "resultados"
   },
   "exit": {
-    "title": "Salidas de Almacén",
+    "title": "Salidas del Almacén",
     "button": "Nueva Salida",
     "product_name": "Nombre del Producto",
     "exit_responsible": "Responsable de la Salida",
@@ -113,7 +113,7 @@
     "entries": "Entradas",
     "exits": "Salidas",
     "products": "Productos",
-    "code": "Código",
+    "category": "Categoría",
     "family": "Familia",
     "set": "Conjunto",
     "areas": "Áreas",
@@ -127,5 +127,37 @@
     "moves": "Movimientos del mes",
     "recent": "Actividad Reciente",
     "all": "Todo el sistema funcionando normalmente."
+  },
+  "category": {
+    "title": "Categorías",
+    "button": "Nueva Categoría",
+    "filter_category": "Filtrar Categorías",
+    "cat": "Categoría",
+    "actions": "Acciones"
+  },
+  "product": {
+    "title": "Productos",
+    "button": "Nuevo Producto",
+    "filter_prod": "Nombre del Producto",
+    "prod": "Producto",
+    "category": "Categoría",
+    "ammount": "Cantidad",
+    "min_ammount": "Cantidad Mínima",
+    "status": "Estado"
+  },
+  "status": {
+    "regular": "REGULAR",
+    "low": "BAJO"
+  },
+  "clients": {
+    "title": "Clientes y Proveedores",
+    "button": "Nuevo Cliente o Proveedor",
+    "filter_name": "Filtrar por Nombre",
+    "name": "Nombre",
+    "phone": "Teléfono",
+    "email": "Correo electrónico",
+    "direction": "Dirección",
+    "type": "Tipo",
+    "actions": "Acciones"
   }
 }

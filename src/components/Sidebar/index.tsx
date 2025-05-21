@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   const configItems = [
     { label: t('sidebar.products'), to: "/produtos", icon: PackageSearch },
-    { label: t('sidebar.code'), to: "/codigo", icon: Binary },
+    { label: t('sidebar.category'), to: "/categoria", icon: Binary },
     { label: t('sidebar.clients'), to: "/clientes", icon: Users },
     { label: t('sidebar.configs'), to: "/config", icon: Settings },
   ];

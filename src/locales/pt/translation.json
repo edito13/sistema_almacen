@@ -113,7 +113,7 @@
     "entries": "Entradas",
     "exits": "Saidas",
     "products": "Produtos",
-    "code": "Código",
+    "category": "Categoria",
     "family": "Família",
     "set": "Conjunto",
     "areas": "Áreas",
@@ -127,5 +127,37 @@
     "moves": "Movimentos do mês",
     "recent": "Atividade Recente",
     "all": "Todo o sistema funcionando normalmente."
+  },
+  "category": {
+    "title": "Categorias",
+    "button": "Nova Categoria",
+    "filter_category": "Filtrar Categorias  ",
+    "cat": "Categoria",
+    "actions": "Ações"
+  },
+  "product": {
+    "title": "Produtos",
+    "button": "Novo Produto",
+    "filter_prod": "Nome do Produto",
+    "prod": "Produto",
+    "category": "Categoria",
+    "ammount": "Quantidade",
+    "min_ammount": "Quantidade Mínima",
+    "status": "Estado"
+  },
+  "status": {
+    "regular": "REGULAR",
+    "low": "BAIXO"
+  },
+  "clients": {
+    "title": "Clientes & Fornecedores",
+    "button": "Novo Clientes ou Fornecedores",
+    "filter_name": "Filtrar por Nome",
+    "name": "Nome",
+    "phone": "Telefone",
+    "email": "E-mail",
+    "direction": "Direção",
+    "type": "Tipo",
+    "actions": "Ações"
   }
 }
