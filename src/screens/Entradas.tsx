@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import { Plus, Search, Calendar } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {useTranslation} from "react-i18next";
 
 import Api from "@/services/api";
 import format from "@/utils/Format";
@@ -11,6 +12,7 @@ import Table from "@/components/Table";
 import ModalEntry from "@/components/ModalEntry";
 
 const Entradas: React.FC = () => {
+  const {t} = useTranslation();
   // Estados dos filtros
   const [origem, setOrigem] = useState("");
   const [dataFim, setDataFim] = useState("");
@@ -38,14 +40,14 @@ const Entradas: React.FC = () => {
   };
 
   const columns = [
-    { name: "PRODUTO", accessor: (item: Entry) => item.equipment.name },
-    { name: "DETALHES", accessor: (item: Entry) => item.details },
-    { name: "CONCEITO", accessor: (item: Entry) => item.concept },
-    { name: "QUANTIDADE", accessor: (item: Entry) => item.quantity },
-    { name: "FORNECEDOR", accessor: (item: Entry) => item.supplier },
-    { name: "RESPONSÁVEL", accessor: (item: Entry) => item.responsible },
+    { name: t('entry.product'), accessor: (item: Entry) => item.equipment.name },
+    { name: t('entry.details'), accessor: (item: Entry) => item.details },
+    { name: t('entry.concept'), accessor: (item: Entry) => item.concept },
+    { name: t('entry.ammount'), accessor: (item: Entry) => item.quantity },
+    { name: t('entry.supplier'), accessor: (item: Entry) => item.supplier },
+    { name: t('entry.responsible'), accessor: (item: Entry) => item.responsible },
     {
-      name: "DATA DE ENTRADA",
+      name: t('entry.entry_date'),
       accessor: (item: Entry) => format.date(new Date(item.entry_date)),
     },
   ];
@@ -56,7 +58,7 @@ const Entradas: React.FC = () => {
         {/* Cabeçalho */}
         <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-white">
-            Entradas no Almoxarifado
+            {t('entry.title')}
           </h1>
 
           <button
@@ -64,7 +66,7 @@ const Entradas: React.FC = () => {
             onClick={() => handleOpen()}
           >
             <Plus size={18} />
-            <span className="font-medium">Nova Entrada</span>
+            <span className="font-medium"> {t('entry.button')}</span>
           </button>
         </div>
 
@@ -73,21 +75,21 @@ const Entradas: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
             <input
               type="text"
-              placeholder="Nome do produto"
+              placeholder= {t('entry.product_name')}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               value={filtroProduto}
               onChange={(e) => setFiltroProduto(e.target.value)}
             />
             <input
               type="text"
-              placeholder="Responsável Entrada"
+              placeholder= {t('entry.entry_responsible')}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               value={responsavelEntrada}
               onChange={(e) => setResponsavelEntrada(e.target.value)}
             />
             <input
               type="text"
-              placeholder="Responsável Recebimento"
+              placeholder= {t('entry.receive_responsible')}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               value={responsavelRecebimento}
               onChange={(e) => setResponsavelRecebimento(e.target.value)}
@@ -97,7 +99,7 @@ const Entradas: React.FC = () => {
               onChange={(e) => setOrigem(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             >
-              <option value="">Selecionar origem do fornecedor</option>
+              <option value=""> {t('entry.select_origin')}</option>
               <option value="nacional">Nacional</option>
               <option value="internacional">Internacional</option>
             </select>
@@ -108,10 +110,6 @@ const Entradas: React.FC = () => {
                 value={dataInicio}
                 onChange={(e) => setDataInicio(e.target.value)}
               />
-              <Calendar
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
             </div>
             <div className="relative">
               <input
@@ -120,10 +118,7 @@ const Entradas: React.FC = () => {
                 value={dataFim}
                 onChange={(e) => setDataFim(e.target.value)}
               />
-              <Calendar
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={18}
-              />
+
             </div>
           </div>
 

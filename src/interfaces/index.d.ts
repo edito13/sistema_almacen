@@ -65,6 +65,8 @@ interface Entry extends ErrorResponse {
   concept: string;
   entry_date: string; // formato: "YYYY-MM-DD"
   responsible: string;
+  receiver: string;
+  origin: string;
   created_at: string;
   updated_at: string;
   equipment: Equipment;
@@ -78,6 +80,7 @@ interface Exit extends ErrorResponse {
   details: string;
   concept: string;
   exit_date: string; // formato: "YYYY-MM-DD"
+  delivery_date: string; // formato: "YYYY-MM-DD"
   responsible: string;
   created_at: string;
   updated_at: string;

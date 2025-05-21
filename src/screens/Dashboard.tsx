@@ -6,6 +6,7 @@ import {
   FaExchangeAlt,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { IconButton, Tooltip } from "@mui/material";
 import { ArrowDown, ArrowUp, Download, Filter } from "lucide-react";
@@ -17,6 +18,7 @@ import DashItem from "@/components/DashItem";
 
 const Dashboard: React.FC = () => {
   const [itemsLoaded, setItemsLoaded] = useState(false);
+  const { t } = useTranslation();
 
   const { data: dataEntries, isLoading: isLoadingEntries } = useQuery({
     queryKey: ["entries"],
@@ -39,28 +41,28 @@ const Dashboard: React.FC = () => {
   const dashboardItems = useMemo(
     () => [
       {
-        title: "Total em Stock",
+        title: t("dash.stock_total"),
         value: 100,
         color: "black",
         Icon: FaBox,
         to: "/stock",
       },
       {
-        title: "Entradas de hoje",
+        title: t("dash.today_entries"),
         value: dataEntries?.length || 0,
         color: "green",
         Icon: FaAngleDoubleRight,
         to: "/entradas",
       },
       {
-        title: "Saídas de hoje",
+        title: t("dash.today_exits"),
         value: dataExits?.length || 0,
         color: "red",
         Icon: FaAngleDoubleLeft,
         to: "/saidas",
       },
       {
-        title: "Movimentos do mês",
+        title: t("dash.moves"),
         value: dataMovements?.length || 0,
         color: "blue",
         Icon: FaExchangeAlt,

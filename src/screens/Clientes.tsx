@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Plus, Edit, X, Search, ChevronDown, ChevronUp } from 'lucide-react';
+import {useTranslation} from "react-i18next";
+
+
 
 interface ClienteItem {
     id: number;
@@ -11,6 +14,8 @@ interface ClienteItem {
 }
 
 const Clientes: React.FC = () => {
+    const {t} = useTranslation();
+
     const [filtroNome, setFiltroNome] = useState('');
     const [sortColumn, setSortColumn] = useState<keyof ClienteItem>('nome');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -57,10 +62,10 @@ const Clientes: React.FC = () => {
             <div className="max-w-7xl mx-auto">
                 {/* Cabeçalho */}
                 <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-white">Clientes & Fornecedores</h1>
+                    <h1 className="text-2xl font-bold text-white">{t('clients.title')}</h1>
                     <button className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition">
                         <Plus size={18} />
-                        <span className="font-medium">Novo Cliente ou Fornecedor</span>
+                        <span className="font-medium">{t('clients.button')}</span>
                     </button>
                 </div>
 
@@ -70,7 +75,7 @@ const Clientes: React.FC = () => {
                         <div className="relative md:col-span-2">
                             <input
                                 type="text"
-                                placeholder="Filtrar por nome"
+                                placeholder={t('clients.filter_name')}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md pl-10 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                 value={filtroNome}
                                 onChange={e => setFiltroNome(e.target.value)}
@@ -91,21 +96,21 @@ const Clientes: React.FC = () => {
                         <thead className="bg-gray-50">
                         <tr>
                             <th onClick={() => handleSort('nome')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
-                                <div className="flex items-center">Nome<SortIcon column="nome" /></div>
+                                <div className="flex items-center">{t('clients.name')}<SortIcon column="nome" /></div>
                             </th>
                             <th onClick={() => handleSort('telefone')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
-                                <div className="flex items-center">Telefone<SortIcon column="telefone" /></div>
+                                <div className="flex items-center">{t('clients.phone')}<SortIcon column="telefone" /></div>
                             </th>
                             <th onClick={() => handleSort('email')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
-                                <div className="flex items-center">Email<SortIcon column="email" /></div>
+                                <div className="flex items-center">{t('clients.email')}<SortIcon column="email" /></div>
                             </th>
                             <th onClick={() => handleSort('direcao')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
-                                <div className="flex items-center">Direção<SortIcon column="direcao" /></div>
+                                <div className="flex items-center">{t('clients.direction')}<SortIcon column="direcao" /></div>
                             </th>
                             <th onClick={() => handleSort('tipo')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer">
-                                <div className="flex items-center">Tipo<SortIcon column="tipo" /></div>
+                                <div className="flex items-center">{t('clients.type')}<SortIcon column="tipo" /></div>
                             </th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('clients.actions')}</th>
                         </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
