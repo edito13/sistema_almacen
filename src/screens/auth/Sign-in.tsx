@@ -1,9 +1,9 @@
 import React from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
 import { Mail, Lock, Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, ToastContainer } from "react-toastify";
+import { useForm, type SubmitHandler } from "react-hook-form";
 
 import Api from "@/services/api";
 import useAuth from "@/hooks/useAuth";
@@ -80,20 +80,20 @@ const SignIn: React.FC = () => {
             {/* Campo de Email */}
             <Input
               type="email"
+              name="email"
               placeholder="Email"
               icon={<Mail size={18} />}
-              register={register}
-              name="email"
+              register={register("email")}
               error={errors.email?.message}
             />
 
             {/* Campo de Senha */}
             <Input
               type="password"
+              name="password"
               placeholder="Senha"
               icon={<Lock size={18} />}
-              register={register}
-              name="password"
+              register={register("password")}
               error={errors.password?.message}
             />
 
