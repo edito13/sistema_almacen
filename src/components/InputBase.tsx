@@ -20,7 +20,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>(
           className={`w-full border ${
             error ? "border-red-500" : "border-gray-300"
           } rounded-lg focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500`}
-          {...register(name)}
+          {...register}
           style={{
             paddingLeft: icon && "2.5rem",
             height: "40px",

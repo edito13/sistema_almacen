@@ -1,19 +1,19 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { Save, XCircle } from "lucide-react";
+import { Divider, Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import {useTranslation} from "react-i18next";
 
-import Api from "@/services/api";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
+import Form from "@/components/CustomForm";
+
+import Api from "@/services/api";
 import useModal from "@/hooks/useModal";
 import schema from "@/schemas/exitSchema";
 import type { ExitFormData } from "@/types/schemas";
-import Form from "../CustomForm";
-import { Divider, Grid } from "@mui/material";
-import { toast } from "react-toastify";
 
 interface ModalExitProps {
   onSave: () => void;
@@ -21,8 +21,6 @@ interface ModalExitProps {
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
 const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
-  const {t} = useTranslation();
-
   const form = useForm<ExitFormData>({
     mode: "all",
     resolver: zodResolver(schema),
@@ -44,10 +42,6 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
   }));
 
   const handleSubmit: SubmitHandler<ExitFormData> = async (data) => {
-    alert(t('exitModal.data_saved'));
-    console.log("Dados Salvos: ", data);
-    console.log(typeof data.equipment_id);
-
     try {
       const response = await Api.exit.createExit(data);
       if (response?.error) throw response.message;
@@ -55,7 +49,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
       console.log("Resposta da API: ", response);
 
       // Exibir mensagem de sucesso
-      toast.success(t('exitModal.success'));
+      toast.success("Saída feita com sucesso!");
     } catch (message) {
       toast.error(message as string);
     } finally {
@@ -65,46 +59,50 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
 
   return (
     <Modal.Root name="exit">
-      <Modal.Title Icon={Save}>{t('exitModal.title')}</Modal.Title>
+      <Modal.Title Icon={Save}>Nova Saída</Modal.Title>
       <Modal.Content>
         <Form form={form} onSubmit={handleSubmit}>
           <Input
-            label={t('exitModal.equip')}
+            label="Equipamento"
             control={form.control}
             name="equipment_id"
             select
             size={6}
             required
+            type="number"
             options={equipments || []}
-            placeholder={t('exitModal.select_equip')}
+            placeholder="Selecione o equipamento"
           />
 
           <Input
-            label={t('exitModal.ammount')}
+            label="Quantidade"
             control={form.control}
             name="quantity"
             type="number"
             required
             size={6}
-            placeholder={t('exitModal.type_ammount')}
+            placeholder="Digite a quantidade"
           />
 
           <Input
-            label={t('exitModal.concept')}
+            label="Conceito"
             control={form.control}
             name="concept"
             select
             required
             size={6}
             options={[
-              { value: "Nova Compra", label: "Nova Compra" },
+              { value: "Empréstimo", label: "Empréstimo" },
+              { value: "Venda", label: "Venda" },
               { value: "Doação", label: "Doação" },
+              { value: "Roubo", label: "Roubo" },
+              { value: "Uso interno", label: "Uso interno" },
             ]}
-            placeholder={t('exitModal.concept')}
+            placeholder="Selecione um conceito"
           />
 
           <Input
-            label={t('exitModal.exit_date')}
+            label="Data de Saída"
             control={form.control}
             name="exit_date"
             type="date"
@@ -113,12 +111,12 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
           />
 
           <Input
-            label={t('exitModal.responsible')}
+            label="Responsável"
             control={form.control}
             name="responsible"
             required
             size={12}
-            placeholder={t('exitModal.type_responsible')}
+            placeholder="Digite o nome do responsável"
           />
 
           <Grid size={12}>
@@ -129,7 +127,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
                 className="flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition duration-200"
               >
                 <XCircle size={16} className="mr-1" />
-                {t('exitModal.cancelBtn')}
+                Cancelar
               </button>
               <button
                 type="submit"
@@ -141,7 +139,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
                 }`}
               >
                 <Save size={16} className="mr-1" />
-                {t('exitModal.confirmBtn')}
+                Confirmar
               </button>
             </div>
           </Grid>

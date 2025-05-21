@@ -62,7 +62,6 @@ interface Entry extends ErrorResponse {
   quantity: number;
   supplier: string;
   details: string;
-  min_quantity: number | null;
   concept: string;
   entry_date: string; // formato: "YYYY-MM-DD"
   responsible: string;
@@ -93,11 +92,13 @@ interface Equipment extends ErrorResponse {
   name: string;
   type: string;
   quantity: number;
+  min_quantity: number;
   category_id: number;
   created_at: string;
   updated_at: string;
   entries?: Entry[];
   exits?: Exit[];
+  category?: Category;
 }
 
 interface Movement extends ErrorResponse {

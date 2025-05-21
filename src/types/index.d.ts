@@ -1,1 +1,1 @@
-type Modals = "entry" | "exit";
+type Modals = "entry" | "exit" | "product";
