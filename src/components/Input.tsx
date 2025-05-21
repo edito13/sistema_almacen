@@ -18,6 +18,7 @@ interface Option {
 interface BaseProps<T extends FieldValues = FieldValues> {
   name: FieldPath<T>;
   label: string;
+  type?: string;
   size?: GridSize;
   required?: boolean;
   placeholder?: string;
@@ -28,7 +29,6 @@ interface BaseProps<T extends FieldValues = FieldValues> {
 interface InputFieldProps<T extends FieldValues = FieldValues>
   extends BaseProps<T> {
   select?: false;
-  type?: string;
 }
 
 interface SelectFieldProps<T extends FieldValues = FieldValues>
@@ -53,6 +53,13 @@ const Input: React.FC<InputProps> = <T extends FieldValues = FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
+  const registerProps = register(name, {
+    setValueAs:
+      (props as InputFieldProps<T>).type === "number"
+        ? (value) => Number(value)
+        : (value) => value,
+  });
+
   const error = errors[name]?.message as string | undefined;
 
   return (
@@ -66,7 +73,7 @@ const Input: React.FC<InputProps> = <T extends FieldValues = FieldValues>({
             name={name}
             icon={icon}
             error={error}
-            register={register}
+            register={registerProps}
             placeholder={placeholder}
             options={(props as SelectFieldProps<T>).options}
           />
@@ -75,7 +82,7 @@ const Input: React.FC<InputProps> = <T extends FieldValues = FieldValues>({
             name={name}
             icon={icon}
             error={error}
-            register={register}
+            register={registerProps}
             placeholder={placeholder || ""}
             type={(props as InputFieldProps<T>).type || "text"}
           />

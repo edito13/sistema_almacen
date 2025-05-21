@@ -8,47 +8,47 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 
 import Api from "@/services/api";
 import useModal from "@/hooks/useModal";
-import schema from "@/schemas/entrySchema";
-import type { EntryFormData } from "@/types/schemas";
+import schema from "@/schemas/equipmentSchema";
+import type { EquipmentFormData } from "@/types/schemas";
 
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import Form from "@/components/CustomForm";
 
-interface ModalEntryProps {
+interface ModalProdutoProps {
   onSave: () => void;
 }
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
-const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
-  const form = useForm<EntryFormData>({
+const ModalProduto: React.FC<ModalProdutoProps> = ({ onSave }) => {
+  const form = useForm<EquipmentFormData>({
     mode: "all",
     resolver: zodResolver(schema),
   });
 
-  const { handleClose } = useModal("entry");
+  const { handleClose } = useModal("product");
 
-  const { data: dataEquipments } = useQuery({
-    queryKey: ["equipments"],
-    queryFn: Api.equipment.getEquipments,
+  const { data: dataCategories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: Api.category.getCategories,
   });
 
   // Verificar preenchimento para habilitar botão
   const isFormValid = form.formState.isValid;
 
-  const equipments = dataEquipments?.map((equipment) => ({
-    value: equipment.id,
-    label: equipment.name,
+  const categories = dataCategories?.map((category) => ({
+    value: category.id,
+    label: category.name,
   }));
 
-  const handleSubmit: SubmitHandler<EntryFormData> = async (data) => {
+  const handleSubmit: SubmitHandler<EquipmentFormData> = async (data) => {
     try {
-      const response = await Api.entry.createEntry(data);
+      const response = await Api.equipment.createEquipment(data);
       if (response?.error) throw response.message;
 
-      //   console.log("Resposta da API: ", response);
+      console.log("Resposta da API: ", response);
 
-      toast.success("Entrada feita com sucesso!");
+      toast.success("Produto criado com sucesso!");
     } catch (message) {
       toast.error(message as string);
     } finally {
@@ -57,20 +57,17 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
   };
 
   return (
-    <Modal.Root name="entry">
-      <Modal.Title Icon={Save}>Nova Entrada</Modal.Title>
+    <Modal.Root name="product">
+      <Modal.Title Icon={Save}>Novo Produto</Modal.Title>
       <Modal.Content>
         <Form form={form} onSubmit={handleSubmit}>
           <Input
-            label="Equipamento"
+            label="Nome do Produto"
             control={form.control}
-            name="equipment_id"
-            select
-            size={6}
+            name="name"
+            size={12}
             required
-            type="number"
-            options={equipments || []}
-            placeholder="Selecione o equipamento"
+            placeholder="Digite o nome do produto"
           />
 
           <Input
@@ -84,55 +81,34 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
           />
 
           <Input
-            label="Fornecedor"
+            label="Quantidade Mínima"
             control={form.control}
-            name="supplier"
+            name="min_quantity"
+            type="number"
             required
             size={6}
-            placeholder="Digite o fornecedor"
+            placeholder="Digite a quantidade mínima"
           />
 
           <Input
-            label="Detalhes"
+            label="Tipo"
             control={form.control}
-            name="details"
+            name="type"
             required
             size={6}
-            placeholder="Digite os detalhes"
+            placeholder="Digite o tipo do produto"
           />
 
           <Input
-            label="Conceito"
+            label="Categoria"
             control={form.control}
-            name="concept"
+            name="category_id"
             select
             required
             size={6}
-            options={[
-              { value: "Nova Compra", label: "Nova compra" },
-              { value: "Doação", label: "Doação" },
-              { value: "Transferência", label: "Transferência" },
-              { value: "Devolução", label: "Devolução" },
-            ]}
-            placeholder="Selecione um conceito"
-          />
-
-          <Input
-            label="Data de Entrada"
-            control={form.control}
-            name="entry_date"
-            type="date"
-            required
-            size={6}
-          />
-
-          <Input
-            label="Responsável"
-            control={form.control}
-            name="responsible"
-            required
-            size={12}
-            placeholder="Digite o nome do responsável"
+            type="number"
+            options={categories || []}
+            placeholder="Selecione a categoria"
           />
 
           <Grid size={12}>
@@ -164,4 +140,4 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
     </Modal.Root>
   );
 };
-export default ModalEntry;
+export default ModalProduto;

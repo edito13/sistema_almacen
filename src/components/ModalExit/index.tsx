@@ -1,18 +1,19 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { Save, XCircle } from "lucide-react";
+import { Divider, Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
-import Api from "@/services/api";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
+import Form from "@/components/CustomForm";
+
+import Api from "@/services/api";
 import useModal from "@/hooks/useModal";
 import schema from "@/schemas/exitSchema";
 import type { ExitFormData } from "@/types/schemas";
-import Form from "../CustomForm";
-import { Divider, Grid } from "@mui/material";
-import { toast } from "react-toastify";
 
 interface ModalExitProps {
   onSave: () => void;
@@ -41,10 +42,6 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
   }));
 
   const handleSubmit: SubmitHandler<ExitFormData> = async (data) => {
-    alert("Dados Salvos");
-    console.log("Dados Salvos: ", data);
-    console.log(typeof data.equipment_id);
-
     try {
       const response = await Api.exit.createExit(data);
       if (response?.error) throw response.message;
@@ -72,6 +69,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
             select
             size={6}
             required
+            type="number"
             options={equipments || []}
             placeholder="Selecione o equipamento"
           />
@@ -94,8 +92,11 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
             required
             size={6}
             options={[
-              { value: "Nova Compra", label: "Nova Compra" },
+              { value: "Empréstimo", label: "Empréstimo" },
+              { value: "Venda", label: "Venda" },
               { value: "Doação", label: "Doação" },
+              { value: "Roubo", label: "Roubo" },
+              { value: "Uso interno", label: "Uso interno" },
             ]}
             placeholder="Selecione um conceito"
           />

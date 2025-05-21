@@ -13,7 +13,6 @@ const Select: React.FC<SelectProps> = ({
   placeholder,
   icon,
   register,
-  name,
   error,
   options,
 }) => {
@@ -27,7 +26,8 @@ const Select: React.FC<SelectProps> = ({
           className={`w-full border ${
             error ? "border-red-500" : "border-gray-300"
           } rounded-lg focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 bg-white`}
-          {...register(name)}
+          {...register}
+          ref={register.ref}
           style={{
             paddingLeft: icon && "2.5rem",
             height: "40px",
