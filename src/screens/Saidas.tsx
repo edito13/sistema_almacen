@@ -128,9 +128,13 @@ const Saidas: React.FC = () => {
   const handleSaveExit = () => {
     modalExit.handleClose();
     modalEdit.handleClose();
-    modalExit.handleClose();
+    modalDelete.handleClose();
     refetch();
-    queryClient.invalidateQueries({ queryKey: ["equipments"] });
+    queryClient.invalidateQueries({ queryKey: ["exits"], refetchType: "all" });
+    queryClient.invalidateQueries({
+      queryKey: ["equipments"],
+      refetchType: "all",
+    });
     queryClient.invalidateQueries({
       queryKey: ["movements"],
       refetchType: "all",

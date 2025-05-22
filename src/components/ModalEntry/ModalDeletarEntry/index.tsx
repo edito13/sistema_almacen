@@ -38,7 +38,7 @@ const ModalDeleteEntry: React.FC<ModalDeleteEntryProps> = ({ onSave }) => {
           </button>
           <button
             className={
-              "flex items-center justify-center px-6 py-2 rounded font-medium transition duration-200 bg-orange-500 hover:bg-orange-600 text-white"
+              "flex items-center justify-center px-6 py-2 rounded font-medium transition duration-200 bg-blue-500 hover:bg-blue-600 text-white"
             }
             onClick={onSave}
           >

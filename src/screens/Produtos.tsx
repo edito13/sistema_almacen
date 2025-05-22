@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 import Api from "@/services/api";
 import useModal from "@/hooks/useModal";
@@ -11,11 +11,10 @@ import Table from "@/components/Table";
 import ModalProduto from "@/components/ModalProduto";
 
 const Produtos: React.FC = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [filtroProduto, setFiltroProduto] = useState("");
-
-  const { isOpen, handleOpen, handleClose } = useModal("product");
+  const modalProduct = useModal("product");
 
   const { data, refetch } = useQuery({
     queryKey: ["equipments"],
@@ -23,29 +22,39 @@ const Produtos: React.FC = () => {
   });
 
   const columns = [
-    { name: t('product.prod'), accessor: (item: Equipment) => item.name },
-    { name: t('product.category'), accessor: (item: Equipment) => item.category?.name },
-    { name: t('product.ammount'), accessor: (item: Equipment) => item.quantity },
+    { name: t("product.prod"), accessor: (item: Equipment) => item.name },
     {
-      name: t('product.min_ammount'),
+      name: t("product.category"),
+      accessor: (item: Equipment) => item.category?.name,
+    },
+    {
+      name: t("product.ammount"),
+      accessor: (item: Equipment) => item.quantity,
+    },
+    {
+      name: t("product.min_ammount"),
       accessor: (item: Equipment) => item.min_quantity,
     },
     {
-      name: t('product.status'),
+      name: t("product.status"),
       accessor: (item: Equipment) => (
-          <div className={`px-3 py-1 rounded-full text-sm font-medium w-fit ${
-              item.min_quantity < item.quantity
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-          }`}>
-            {item.min_quantity < item.quantity ? t('status.regular') : t('status.low')}
-          </div>
+        <div
+          className={`px-3 py-1 rounded-full text-sm font-medium w-fit ${
+            item.min_quantity < item.quantity
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {item.min_quantity < item.quantity
+            ? t("status.regular")
+            : t("status.low")}
+        </div>
       ),
     },
   ];
 
   const handleSaveProduct = () => {
-    handleClose();
+    modalProduct.handleClose();
     refetch();
   };
 
@@ -54,13 +63,15 @@ const Produtos: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Cabeçalho */}
         <div className="bg-gradient-to-r from-blue-500 to-blue-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">{t('product.title')}</h1>
+          <h1 className="text-2xl font-bold text-white">
+            {t("product.title")}
+          </h1>
           <button
             className="bg-white text-blue-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-blue-50 transition"
-            onClick={handleOpen}
+            onClick={modalProduct.handleOpen}
           >
             <Plus size={18} />
-            <span className="font-medium">{t('product.button')}</span>
+            <span className="font-medium">{t("product.button")}</span>
           </button>
         </div>
 
@@ -69,7 +80,7 @@ const Produtos: React.FC = () => {
           <div className="flex items-center gap-6 max-w-[40%]">
             <input
               type="text"
-              placeholder={t('product.filter_prod')}
+              placeholder={t("product.filter_prod")}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               value={filtroProduto}
               onChange={(e) => setFiltroProduto(e.target.value)}
@@ -84,7 +95,7 @@ const Produtos: React.FC = () => {
         {/* Tabela */}
         <Table columns={columns} data={data || []} />
         <ToastContainer position="bottom-right" />
-        {isOpen && <ModalProduto onSave={handleSaveProduct} />}
+        {modalProduct.isOpen && <ModalProduto onSave={handleSaveProduct} />}
       </div>
     </div>
   );

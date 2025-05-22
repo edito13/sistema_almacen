@@ -148,7 +148,14 @@ const Entradas: React.FC = () => {
     modalEdit.handleClose();
     modalDelete.handleClose();
     refetch();
-    queryClient.invalidateQueries({ queryKey: ["equipments"] });
+    queryClient.invalidateQueries({
+      queryKey: ["entries"],
+      refetchType: "all",
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["equipments"],
+      refetchType: "all",
+    });
     queryClient.invalidateQueries({
       queryKey: ["movements"],
       refetchType: "all",
@@ -164,7 +171,7 @@ const Entradas: React.FC = () => {
     } catch (message) {
       toast.error(message as string);
     } finally {
-      setTimeout(() => handleSaveEntry(), 1000);
+      setTimeout(() => handleSaveEntry(), 600);
     }
   };
 

@@ -46,13 +46,11 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
       const response = await Api.entry.createEntry(data);
       if (response?.error) throw response.message;
 
-      //   console.log("Resposta da API: ", response);
-
       toast.success("Entrada feita com sucesso!");
     } catch (message) {
       toast.error(message as string);
     } finally {
-      setTimeout(() => onSave(), 1000);
+      setTimeout(() => onSave(), 600);
     }
   };
 
@@ -109,7 +107,7 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
             required
             size={6}
             options={[
-              { value: "Nova Compra", label: "Nova compra" },
+              { value: "Compra", label: "Compra" },
               { value: "Doação", label: "Doação" },
               { value: "Transferência", label: "Transferência" },
               { value: "Devolução", label: "Devolução" },
@@ -150,7 +148,7 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
                 disabled={!isFormValid}
                 className={`flex items-center justify-center px-6 py-2 rounded font-medium transition duration-200 ${
                   isFormValid
-                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    ? "bg-blue-500 hover:bg-blue-600 text-white"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >

@@ -60,7 +60,7 @@ const ModalEditEntry: React.FC<ModalEditEntryProps> = ({ item, onSave }) => {
     } catch (message) {
       toast.error(message as string);
     } finally {
-      setTimeout(() => onSave(), 1000);
+      setTimeout(() => onSave(), 600);
     }
   };
 
@@ -158,7 +158,7 @@ const ModalEditEntry: React.FC<ModalEditEntryProps> = ({ item, onSave }) => {
                 disabled={!isFormValid}
                 className={`flex items-center justify-center px-6 py-2 rounded font-medium transition duration-200 ${
                   isFormValid
-                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    ? "bg-blue-500 hover:bg-blue-600 text-white"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
