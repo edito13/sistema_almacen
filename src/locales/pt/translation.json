@@ -157,6 +157,7 @@
   "clients": {
     "title": "Clientes e Fornecedores",
     "button": "Novo Cliente ou Fornecedor",
+    "search_button": "Buscar",
     "filter_name": "Filtrar por nome",
     "name": "Nome",
     "phone": "Telefone",

@@ -202,7 +202,6 @@ const Clientes: React.FC = () => {
                                 value={filtroNome}
                                 onChange={e => setFiltroNome(e.target.value)}
                             />
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                         </div>
                         <div className="flex items-end">
                             <motion.button
