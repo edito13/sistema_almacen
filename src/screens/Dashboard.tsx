@@ -20,6 +20,11 @@ const Dashboard: React.FC = () => {
   const [itemsLoaded, setItemsLoaded] = useState(false);
   const { t } = useTranslation();
 
+  const { data: dataEquipments, isLoading: isLoadingEquipments } = useQuery({
+    queryKey: ["equipments"],
+    queryFn: Api.equipment.getEquipments,
+  });
+
   const { data: dataEntries, isLoading: isLoadingEntries } = useQuery({
     queryKey: ["entries"],
     queryFn: Api.entry.getEntries,
@@ -36,13 +41,17 @@ const Dashboard: React.FC = () => {
     refetchOnWindowFocus: true,
   });
 
-  const isLoading = isLoadingEntries || isLoadingExits || isLoadingMovements;
+  const isLoading =
+    isLoadingEquipments ||
+    isLoadingEntries ||
+    isLoadingExits ||
+    isLoadingMovements;
 
   const dashboardItems = useMemo(
     () => [
       {
         title: t("dash.stock_total"),
-        value: 100,
+        value: dataEquipments?.length || 0,
         color: "black",
         Icon: FaBox,
         to: "/stock",
@@ -99,7 +108,11 @@ const Dashboard: React.FC = () => {
       ),
     },
     { name: "PRODUTO", accessor: (item: Movement) => item.equipment.name },
-    { name: "DETALHES", accessor: (item: Movement) => item.details },
+    {
+      name: "DETALHES",
+      accessor: (item: Movement) =>
+        item.details ? item.details : "Sem detalhes...",
+    },
     { name: "CONCEITO", accessor: (item: Movement) => item.concept },
     { name: "QUANTIDADE", accessor: (item: Movement) => item.quantity },
     { name: "RESPONSÁVEL", accessor: (item: Movement) => item.responsible },
@@ -161,28 +174,28 @@ const Dashboard: React.FC = () => {
             Movimentos recentes
           </h3>
           <div className="flex space-x-2">
-            <Tooltip title="Filtrar" arrow>
-              <motion.button
-                className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100"
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.9, y: 0 }}
-              >
+            <motion.div
+              className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100"
+              whileHover={{ scale: 1.1, y: -2 }}
+              whileTap={{ scale: 0.9, y: 0 }}
+            >
+              <Tooltip title="Filtrar" arrow>
                 <IconButton>
                   <Filter size={18} />
                 </IconButton>
-              </motion.button>
-            </Tooltip>
-            <Tooltip title="Baixar movimentos" arrow>
-              <motion.button
-                className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100"
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.9, y: 0 }}
-              >
+              </Tooltip>
+            </motion.div>
+            <motion.div
+              className="text-gray-600 hover:text-gray-800 p-2 rounded-md hover:bg-gray-100"
+              whileHover={{ scale: 1.1, y: -2 }}
+              whileTap={{ scale: 0.9, y: 0 }}
+            >
+              <Tooltip title="Baixar movimentos" arrow>
                 <IconButton>
                   <Download size={18} />
                 </IconButton>
-              </motion.button>
-            </Tooltip>
+              </Tooltip>
+            </motion.div>
           </div>
         </div>
         <Table
