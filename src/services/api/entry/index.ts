@@ -15,6 +15,14 @@ const Api = {
     const { data } = await axios.post<Entry>("/entry", payload);
     return data;
   },
+  updateEntry: async (payload: payloadEntry, id: number) => {
+    const { data } = await axios.put<ErrorResponse>(`/entry/${id}`, payload);
+    return data;
+  },
+  deleteEntry: async (id: number) => {
+    const { data } = await axios.delete<ErrorResponse>(`/entry/${id}`);
+    return data;
+  },
 };
 
 export default Api;

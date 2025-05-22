@@ -15,6 +15,14 @@ const Api = {
     const { data } = await axios.post<Exit>("/exit", payload);
     return data;
   },
+  updateExit: async (payload: payloadExit, id: number) => {
+    const { data } = await axios.put<ErrorResponse>(`/exit/${id}`, payload);
+    return data;
+  },
+  deleteExit: async (id: number) => {
+    const { data } = await axios.delete<ErrorResponse>(`/exit/${id}`);
+    return data;
+  },
 };
 
 export default Api;
