@@ -61,9 +61,9 @@ const Clientes: React.FC = () => {
         <div className="bg-gray-50 min-h-screen p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Cabeçalho */}
-                <div className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
                     <h1 className="text-2xl font-bold text-white">{t('clients.title')}</h1>
-                    <button className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition">
+                    <button className="bg-white text-blue-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-blue-50 transition">
                         <Plus size={18} />
                         <span className="font-medium">{t('clients.button')}</span>
                     </button>
@@ -76,7 +76,7 @@ const Clientes: React.FC = () => {
                             <input
                                 type="text"
                                 placeholder={t('clients.filter_name')}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md pl-10 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 value={filtroNome}
                                 onChange={e => setFiltroNome(e.target.value)}
                             />
@@ -147,7 +147,7 @@ const Clientes: React.FC = () => {
                             <ChevronDown className="h-5 w-5 rotate-90" />
                         </button>
                         {Array.from({ length: totalPages }, (_, i) => (
-                            <button key={i} onClick={() => setCurrentPage(i + 1)} className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === i + 1 ? 'bg-orange-50 text-orange-500' : 'bg-white text-gray-500'} hover:bg-gray-50`}>{i + 1}</button>
+                            <button key={i} onClick={() => setCurrentPage(i + 1)} className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === i + 1 ? 'bg-blue-50 text-blue-500' : 'bg-white text-gray-500'} hover:bg-gray-50`}>{i + 1}</button>
                         ))}
                         <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                             <ChevronDown className="h-5 w-5 -rotate-90" />

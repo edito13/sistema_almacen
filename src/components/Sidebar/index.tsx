@@ -48,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
       <aside className="max-h-full w-72 flex flex-col bg-white shadow-lg rounded-2xl p-4 transition-all duration-200 hover:shadow-xl">
         {/* Logo */}
         <div className="flex justify-center mb-4">
-          <img className="w-36" src="/assets/img/logo-ct-dark.png" alt="Logo" />
+          <img className="w-36" src="/assets/img/logo-cuanza.svg" alt="Logo" />
         </div>
 
         {/* Navegação com scroll interno */}

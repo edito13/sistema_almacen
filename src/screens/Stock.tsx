@@ -150,7 +150,7 @@ const Stock: React.FC<StockProps> = () => {
         className="ml-1"
       >
         {isActive ? (
-          <ChevronUp size={16} className={`text-orange-500`} />
+          <ChevronUp size={16} className={`text-blue-500`} />
         ) : (
           <ChevronDown size={16} className="text-gray-400" />
         )}
@@ -279,7 +279,7 @@ const Stock: React.FC<StockProps> = () => {
       <div className="max-w-7xl mx-auto">
         {/* Cabeçalho */}
         <motion.div
-          className="bg-gradient-to-r from-orange-500 to-orange-400 rounded-lg p-6 shadow-md mb-6"
+          className="bg-gradient-to-r from-blue-500 to-blue-400 rounded-lg p-6 shadow-md mb-6"
           initial="hidden"
           animate={headerControls}
           variants={headerVariants}
@@ -295,7 +295,7 @@ const Stock: React.FC<StockProps> = () => {
             </motion.h1>
 
             <motion.button
-              className="bg-white text-orange-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-orange-50 transition duration-200"
+              className="bg-white text-blue-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-blue-50 transition duration-200"
               onClick={() => modalEntry.handleOpen()}
               variants={buttonVariants}
               whileHover="hover"
@@ -327,7 +327,7 @@ const Stock: React.FC<StockProps> = () => {
               <input
                 type="text"
                 placeholder="Buscar produto..."
-                className="w-full border border-gray-300 rounded-md pr-4 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded-md pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -336,7 +336,7 @@ const Stock: React.FC<StockProps> = () => {
             <motion.select
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.5 }}
@@ -351,7 +351,7 @@ const Stock: React.FC<StockProps> = () => {
               placeholder="País Provedor"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.6 }}
@@ -362,7 +362,7 @@ const Stock: React.FC<StockProps> = () => {
               placeholder="Comércio Provedor"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.7 }}
@@ -543,7 +543,7 @@ const Stock: React.FC<StockProps> = () => {
                               ease: "linear",
                             },
                           }}
-                          className="inline-block w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full"
+                          className="inline-block w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full"
                         />
                         <p className="mt-2 text-gray-500">Pesquisando...</p>
                       </td>
@@ -702,7 +702,7 @@ const Stock: React.FC<StockProps> = () => {
                     onClick={() => setCurrentPage(i + 1)}
                     className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                       currentPage === i + 1
-                        ? "bg-orange-50 text-orange-500"
+                        ? "bg-blue-50 text-blue-500"
                         : "bg-white text-gray-500"
                     } hover:bg-gray-50`}
                     whileHover={{ scale: 1.1 }}

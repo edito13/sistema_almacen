@@ -7,9 +7,9 @@ interface ModalTitleProps {
 
 const ModalTitle: React.FC<ModalTitleProps> = ({ children, Icon }) => {
   return (
-    <div className="bg-gradient-to-r from-orange-500 to-orange-400 p-4 flex items-center gap-2">
+    <div className="bg-gradient-to-r from-blue-500 to-blue-400 p-4 flex items-center gap-2">
       {Icon && (
-        <span className="bg-white text-orange-500 p-2 rounded-full">
+        <span className="bg-white text-blue-500 p-2 rounded-full">
           <Icon size={20} />
         </span>
       )}
