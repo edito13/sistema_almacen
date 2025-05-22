@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
     { label: t('sidebar.products'), to: "/produtos", icon: PackageSearch },
     { label: t('sidebar.category'), to: "/categoria", icon: Binary },
     { label: t('sidebar.clients'), to: "/clientes", icon: Users },
-    { label: t('sidebar.configs'), to: "/config", icon: Settings },
+    // { label: t('sidebar.configs'), to: "/config", icon: Settings },
   ];
 
   return (
