@@ -73,7 +73,7 @@ const Stock: React.FC<StockProps> = () => {
       quantity: 15,
       value: 899.9,
       provider: "Dell Computadores",
-      status: "Disponível",
+      status: "REGULAR",
     },
     {
       id: 2,
@@ -82,7 +82,7 @@ const Stock: React.FC<StockProps> = () => {
       quantity: 8,
       value: 5399.9,
       provider: "HP Brasil",
-      status: "Baixo Estoque",
+      status: "BAIXO ",
     },
     {
       id: 3,
@@ -91,7 +91,7 @@ const Stock: React.FC<StockProps> = () => {
       quantity: 25,
       value: 89.9,
       provider: "Logitech Brasil",
-      status: "Disponível",
+      status: "REGULAR",
     },
     {
       id: 4,
@@ -100,7 +100,7 @@ const Stock: React.FC<StockProps> = () => {
       quantity: 12,
       value: 199.9,
       provider: "Microsoft BR",
-      status: "Disponível",
+      status: "REGULAR",
     },
     {
       id: 5,
@@ -109,7 +109,7 @@ const Stock: React.FC<StockProps> = () => {
       quantity: 30,
       value: 29.9,
       provider: "MultiCabos",
-      status: "Disponível",
+      status: "REGULAR",
     },
     {
       id: 6,
@@ -118,7 +118,7 @@ const Stock: React.FC<StockProps> = () => {
       quantity: 5,
       value: 349.9,
       provider: "Kingston Technology",
-      status: "Baixo Estoque",
+      status: "BAIXO ",
     },
   ];
 
@@ -593,9 +593,9 @@ const Stock: React.FC<StockProps> = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <motion.span
                             className={`${
-                              item.status === "Disponível"
+                              item.status === "REGULAR"
                                 ? "bg-green-100 text-green-800"
-                                : "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
                             } px-2 inline-flex text-xs leading-5 font-semibold rounded-full`}
                             whileHover={{ scale: 1.05 }}
                             animate={

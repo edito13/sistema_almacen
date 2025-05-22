@@ -33,7 +33,7 @@ const Produtos: React.FC = () => {
     {
       name: t('product.status'),
       accessor: (item: Equipment) => (
-          <div className={`px-3 py-1 rounded-full text-sm font-medium w-fit ${
+          <div className={`px-3 py-1 rounded-full text-xs font-medium w-fit ${
               item.min_quantity < item.quantity
                   ? "bg-green-100 text-green-700"
                   : "bg-red-100 text-red-700"
