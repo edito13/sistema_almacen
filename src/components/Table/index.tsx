@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import usePagination from "@/hooks/usePagination";
 
 interface Columns<T> {
@@ -11,11 +11,11 @@ interface Columns<T> {
 interface TableProps<T> {
   data: T[];
   columns: Columns<T>[];
+  itensPorPagina?: number;
 }
 
-const Table = <T,>({ columns, data }: TableProps<T>) => {
-  const {t} = useTranslation();
-  const itensPorPagina = 5;
+const Table = <T,>({ columns, itensPorPagina = 5, data }: TableProps<T>) => {
+  const { t } = useTranslation();
   const { paginaAtual, handlePage, paginados, totalPaginas } = usePagination({
     itensPorPagina,
     filtrados: data,
@@ -37,29 +37,37 @@ const Table = <T,>({ columns, data }: TableProps<T>) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {paginados.map((item: T, i) => (
-            <tr key={i} className="hover:bg-gray-50">
-              {columns.map((col, index) => (
-                <td
-                  key={index}
-                  className={`px-6 py-4 whitespace-nowrap text-sm ${
-                    col.name === "PRODUTO"
-                      ? "font-medium text-gray-900"
-                      : "text-gray-700"
-                  }`}
-                >
-                  {col.accessor(item)}
-                </td>
-              ))}
+          {data.length ? (
+            paginados.map((item: T, i) => (
+              <tr key={i} className="hover:bg-gray-50">
+                {columns.map((col, index) => (
+                  <td
+                    key={index}
+                    className={`px-6 py-4 whitespace-nowrap text-sm ${
+                      col.name === "PRODUTO"
+                        ? "font-medium text-gray-900"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {col.accessor(item)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={columns.length} className="text-center py-4">
+                Nenhum registro foi feito ainda...
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
       {/* Paginação */}
       <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
         <p className="text-sm text-gray-700">
-          {t('entry.showing')}{" "}
+          {t("entry.showing")}{" "}
           <span className="font-medium">
             {(paginaAtual - 1) * itensPorPagina + 1}
           </span>{" "}
@@ -67,7 +75,8 @@ const Table = <T,>({ columns, data }: TableProps<T>) => {
           <span className="font-medium">
             {Math.min(paginaAtual * itensPorPagina, data.length)}
           </span>{" "}
-          de <span className="font-medium">{data.length}</span> {t('entry.results')}
+          de <span className="font-medium">{data.length}</span>{" "}
+          {t("entry.results")}
         </p>
         <nav
           className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"

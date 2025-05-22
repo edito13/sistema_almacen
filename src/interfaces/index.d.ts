@@ -76,11 +76,11 @@ interface Exit extends ErrorResponse {
   id: number;
   equipment_id: number;
   quantity: number;
-  destination: string;
+  destination?: string;
   details: string;
   concept: string;
   exit_date: string; // formato: "YYYY-MM-DD"
-  delivery_date: string; // formato: "YYYY-MM-DD"
+  delivery_date?: string; // formato: "YYYY-MM-DD"
   responsible: string;
   created_at: string;
   updated_at: string;

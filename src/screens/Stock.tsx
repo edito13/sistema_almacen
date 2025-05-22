@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from "react";
-import ModalEntry from "@/components/ModalEntry";
-import {
-  Search,
-  Plus,
-  Filter,
-  Download,
-  Trash2,
-  Edit,
-  Eye,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
 import { Tooltip } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { Search, Plus, Filter, Download } from "lucide-react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
+
+import Api from "@/services/api";
+import Table from "@/components/Table";
 import useModal from "@/hooks/useModal";
+import ModalEntry from "@/components/ModalEntry";
 
 interface StockProps {}
 
 const Stock: React.FC<StockProps> = () => {
+  const { t } = useTranslation();
   // Estados para filtros e paginação
   const [searchTerm, setSearchTerm] = useState("");
   const [origin, setOrigin] = useState("");
   const [country, setCountry] = useState("");
   const [company, setCompany] = useState("");
-  const [sortColumn, setSortColumn] = useState<string>("");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
+
   const modalEntry = useModal("entry");
+  const { data } = useQuery({
+    queryKey: ["stock"],
+    queryFn: Api.stock.getStock,
+  });
 
   // Estados para animações
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
@@ -58,106 +57,6 @@ const Stock: React.FC<StockProps> = () => {
     sequence();
   }, [headerControls, tableControls]);
 
-  const handleSaveEntry = () => {
-    modalEntry.handleClose();
-  };
-
-  const itemsPerPage = 5;
-
-  // Dados fictícios para demonstração
-  const stockItems = [
-    {
-      id: 1,
-      name: 'Monitor Dell 24"',
-      details: "P2419H LED IPS",
-      quantity: 15,
-      value: 899.9,
-      provider: "Dell Computadores",
-      status: "REGULAR",
-    },
-    {
-      id: 2,
-      name: "Notebook HP",
-      details: "EliteBook 840 G8",
-      quantity: 8,
-      value: 5399.9,
-      provider: "HP Brasil",
-      status: "BAIXO ",
-    },
-    {
-      id: 3,
-      name: "Mouse Logitech",
-      details: "M170 Wireless",
-      quantity: 25,
-      value: 89.9,
-      provider: "Logitech Brasil",
-      status: "REGULAR",
-    },
-    {
-      id: 4,
-      name: "Teclado Microsoft",
-      details: "Wireless Desktop 900",
-      quantity: 12,
-      value: 199.9,
-      provider: "Microsoft BR",
-      status: "REGULAR",
-    },
-    {
-      id: 5,
-      name: "Cabo HDMI",
-      details: "2m Premium",
-      quantity: 30,
-      value: 29.9,
-      provider: "MultiCabos",
-      status: "REGULAR",
-    },
-    {
-      id: 6,
-      name: "SSD Kingston",
-      details: "480GB A400",
-      quantity: 5,
-      value: 349.9,
-      provider: "Kingston Technology",
-      status: "BAIXO ",
-    },
-  ];
-
-  // Função de ordenação
-  const handleSort = (column: string) => {
-    // Efeito visual de pesquisa
-    setIsSearching(true);
-    setTimeout(() => setIsSearching(false), 300);
-
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortColumn(column);
-      setSortDirection("asc");
-    }
-  };
-
-  // Ícone de sort com animação
-  const SortIcon: React.FC<{ column: string }> = ({ column }) => {
-    const isActive = sortColumn === column;
-
-    return (
-      <motion.div
-        animate={{
-          rotate: isActive && sortDirection === "desc" ? 180 : 0,
-          scale: isActive ? 1.2 : 1,
-        }}
-        transition={{ duration: 0.3 }}
-        className="ml-1"
-      >
-        {isActive ? (
-          <ChevronUp size={16} className={`text-blue-500`} />
-        ) : (
-          <ChevronDown size={16} className="text-gray-400" />
-        )}
-      </motion.div>
-    );
-  };
-
   // Aplicar filtros
   const handleApplyFilters = () => {
     setIsSearching(true);
@@ -168,36 +67,6 @@ const Stock: React.FC<StockProps> = () => {
       setIsSearching(false);
     }, 500);
   };
-
-  // Filtra pelo search, origin, country e company
-  const filteredItems = stockItems
-    .filter(
-      (item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (origin === "" ||
-          item.provider.toLowerCase().includes(origin.toLowerCase())) &&
-        (country === "" ||
-          item.provider.toLowerCase().includes(country.toLowerCase())) &&
-        (company === "" ||
-          item.provider.toLowerCase().includes(company.toLowerCase()))
-    )
-    .sort((a, b) => {
-      if (!sortColumn) return 0;
-      const aValue = a[sortColumn as keyof typeof a];
-      const bValue = b[sortColumn as keyof typeof b];
-      if (typeof aValue === "number" && typeof bValue === "number") {
-        return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
-      }
-      return sortDirection === "asc"
-        ? String(aValue).localeCompare(String(bValue))
-        : String(bValue).localeCompare(String(aValue));
-    });
-
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const paginatedItems = filteredItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   // Variantes de animação
   const headerVariants = {
@@ -273,6 +142,35 @@ const Stock: React.FC<StockProps> = () => {
       scale: 0.95,
     },
   };
+
+  const columns = [
+    { name: "ID", accessor: (item: Equipment) => item.id },
+    { name: "PRODUTO", accessor: (item: Equipment) => item.name },
+    { name: "CATEGORIA", accessor: (item: Equipment) => item.category?.name },
+    { name: "QUANTIDADE", accessor: (item: Equipment) => item.quantity },
+    { name: "ENTRADAS", accessor: (item: Equipment) => item.entries?.length },
+    { name: "SAÍDAS", accessor: (item: Equipment) => item.exits?.length },
+    {
+      name: t("product.status"),
+      accessor: (item: Equipment) => (
+        <div
+          className={`px-3 py-1 rounded-full text-sm font-medium w-fit ${
+            item.min_quantity < item.quantity
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {item.min_quantity < item.quantity
+            ? t("status.regular")
+            : t("status.low")}
+        </div>
+      ),
+    },
+  ];
+
+  console.log("data", data);
+
+  const handleSaveEntry = () => {};
 
   return (
     <div className="h-full bg-gray-50 rounded-2xl p-6">
@@ -442,297 +340,7 @@ const Stock: React.FC<StockProps> = () => {
             </motion.div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <motion.tr
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.9, duration: 0.5 }}
-                >
-                  <th
-                    onClick={() => handleSort("name")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  >
-                    <motion.div
-                      className="flex items-center"
-                      whileHover={{ color: "#f97316" }}
-                    >
-                      Produto
-                      <SortIcon column="name" />
-                    </motion.div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("details")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  >
-                    <motion.div
-                      className="flex items-center"
-                      whileHover={{ color: "#f97316" }}
-                    >
-                      Detalhes
-                      <SortIcon column="details" />
-                    </motion.div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("quantity")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  >
-                    <motion.div
-                      className="flex items-center"
-                      whileHover={{ color: "#f97316" }}
-                    >
-                      Quantidade
-                      <SortIcon column="quantity" />
-                    </motion.div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("value")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  >
-                    <motion.div
-                      className="flex items-center"
-                      whileHover={{ color: "#f97316" }}
-                    >
-                      Valor Unitário
-                      <SortIcon column="value" />
-                    </motion.div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("provider")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  >
-                    <motion.div
-                      className="flex items-center"
-                      whileHover={{ color: "#f97316" }}
-                    >
-                      Provedor
-                      <SortIcon column="provider" />
-                    </motion.div>
-                  </th>
-                  <th
-                    onClick={() => handleSort("status")}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  >
-                    <motion.div
-                      className="flex items-center"
-                      whileHover={{ color: "#f97316" }}
-                    >
-                      Estado
-                      <SortIcon column="status" />
-                    </motion.div>
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                </motion.tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                <AnimatePresence>
-                  {isSearching ? (
-                    <motion.tr
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      <td colSpan={7} className="px-6 py-10 text-center">
-                        <motion.div
-                          animate={{
-                            rotate: 360,
-                            transition: {
-                              duration: 1,
-                              repeat: Infinity,
-                              ease: "linear",
-                            },
-                          }}
-                          className="inline-block w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full"
-                        />
-                        <p className="mt-2 text-gray-500">Pesquisando...</p>
-                      </td>
-                    </motion.tr>
-                  ) : (
-                    paginatedItems.map((item, index) => (
-                      <motion.tr
-                        key={item.id}
-                        className="hover:bg-gray-50"
-                        custom={index}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        variants={tableRowVariants}
-                        onHoverStart={() => setHoveredRow(item.id)}
-                        onHoverEnd={() => setHoveredRow(null)}
-                        layoutId={`row-${item.id}`}
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {item.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {item.details}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <motion.span
-                            animate={
-                              hoveredRow === item.id
-                                ? { scale: 1.1 }
-                                : { scale: 1 }
-                            }
-                            transition={{
-                              type: "spring",
-                              stiffness: 400,
-                              damping: 10,
-                            }}
-                          >
-                            {item.quantity}
-                          </motion.span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          R$ {item.value.toFixed(2)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {item.provider}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <motion.span
-                            className={`${
-                              item.status === "REGULAR"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
-                            } px-2 inline-flex text-xs leading-5 font-semibold rounded-full`}
-                            whileHover={{ scale: 1.05 }}
-                            animate={
-                              hoveredRow === item.id
-                                ? {
-                                    y: [0, -2, 0],
-                                    transition: { repeat: 1, duration: 0.5 },
-                                  }
-                                : {}
-                            }
-                          >
-                            {item.status}
-                          </motion.span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex justify-end space-x-2">
-                            <motion.button
-                              className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"
-                              whileHover={{ scale: 1.2 }}
-                              whileTap={{ scale: 0.9 }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 400,
-                                damping: 15,
-                              }}
-                            >
-                              <Eye size={16} />
-                            </motion.button>
-                            <motion.button
-                              className="text-indigo-600 hover:text-indigo-900 p-1 rounded-md hover:bg-indigo-50"
-                              whileHover={{ scale: 1.2 }}
-                              whileTap={{ scale: 0.9 }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 400,
-                                damping: 15,
-                              }}
-                            >
-                              <Edit size={16} />
-                            </motion.button>
-                            <motion.button
-                              className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50"
-                              whileHover={{ scale: 1.2 }}
-                              whileTap={{ scale: 0.9 }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 400,
-                                damping: 15,
-                              }}
-                            >
-                              <Trash2 size={16} />
-                            </motion.button>
-                          </div>
-                        </td>
-                      </motion.tr>
-                    ))
-                  )}
-                </AnimatePresence>
-              </tbody>
-            </table>
-          </div>
-
-          {/* Paginação */}
-          <motion.div
-            className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
-          >
-            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-              <p className="text-sm text-gray-700">
-                Mostrando{" "}
-                <span className="font-medium">
-                  {(currentPage - 1) * itemsPerPage + 1}
-                </span>{" "}
-                a{" "}
-                <span className="font-medium">
-                  {Math.min(currentPage * itemsPerPage, filteredItems.length)}
-                </span>{" "}
-                de <span className="font-medium">{filteredItems.length}</span>{" "}
-                resultados
-              </p>
-              <nav
-                className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-                aria-label="Pagination"
-              >
-                <motion.button
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <span className="sr-only">Anterior</span>
-                  <ChevronDown
-                    className="h-5 w-5 rotate-90"
-                    aria-hidden="true"
-                  />
-                </motion.button>
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <motion.button
-                    key={i}
-                    onClick={() => setCurrentPage(i + 1)}
-                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                      currentPage === i + 1
-                        ? "bg-blue-50 text-blue-500"
-                        : "bg-white text-gray-500"
-                    } hover:bg-gray-50`}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    animate={
-                      currentPage === i + 1
-                        ? { backgroundColor: "#fff7ed", color: "#f97316" }
-                        : { backgroundColor: "#ffffff", color: "#6b7280" }
-                    }
-                  >
-                    {i + 1}
-                  </motion.button>
-                ))}
-                <motion.button
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                  }
-                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <span className="sr-only">Próximo</span>
-                  <ChevronDown
-                    className="h-5 w-5 -rotate-90"
-                    aria-hidden="true"
-                  />
-                </motion.button>
-              </nav>
-            </div>
-          </motion.div>
+          <Table columns={columns} data={data || []} />
         </motion.div>
 
         {/* Modal com animação */}

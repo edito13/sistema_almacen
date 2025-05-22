@@ -46,14 +46,12 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
       const response = await Api.exit.createExit(data);
       if (response?.error) throw response.message;
 
-      console.log("Resposta da API: ", response);
-
       // Exibir mensagem de sucesso
       toast.success("Saída feita com sucesso!");
     } catch (message) {
       toast.error(message as string);
     } finally {
-      setTimeout(() => onSave(), 1000);
+      setTimeout(() => onSave(), 600);
     }
   };
 
@@ -134,7 +132,7 @@ const ModalExit: React.FC<ModalExitProps> = ({ onSave }) => {
                 disabled={!isFormValid}
                 className={`flex items-center justify-center px-6 py-2 rounded font-medium transition duration-200 ${
                   isFormValid
-                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    ? "bg-blue-500 hover:bg-blue-600 text-white"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >

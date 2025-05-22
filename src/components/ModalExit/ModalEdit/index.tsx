@@ -8,25 +8,33 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 
 import Api from "@/services/api";
 import useModal from "@/hooks/useModal";
-import schema from "@/schemas/entrySchema";
-import type { EntryFormData } from "@/types/schemas";
+import schema from "@/schemas/exitSchema";
+import type { ExitFormData } from "@/types/schemas";
 
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import Form from "@/components/CustomForm";
 
-interface ModalEntryProps {
+interface ModalEditExitProps {
+  item: Exit;
   onSave: () => void;
 }
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
-const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
-  const form = useForm<EntryFormData>({
+const ModalEditExit: React.FC<ModalEditExitProps> = ({ item, onSave }) => {
+  const form = useForm<ExitFormData>({
     mode: "all",
+    defaultValues: {
+      equipment_id: item.equipment_id,
+      quantity: item.quantity,
+      concept: item.concept,
+      exit_date: item.exit_date,
+      responsible: item.responsible,
+    },
     resolver: zodResolver(schema),
   });
 
-  const { handleClose } = useModal("entry");
+  const { handleClose } = useModal("editExit");
 
   const { data: dataEquipments } = useQuery({
     queryKey: ["equipments"],
@@ -41,12 +49,12 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
     label: equipment.name,
   }));
 
-  const handleSubmit: SubmitHandler<EntryFormData> = async (data) => {
+  const handleSubmit: SubmitHandler<ExitFormData> = async (data) => {
     try {
-      const response = await Api.entry.createEntry(data);
+      const response = await Api.exit.updateExit(data, item.id);
       if (response?.error) throw response.message;
 
-      toast.success("Entrada feita com sucesso!");
+      toast.success("Saída editada com sucesso.");
     } catch (message) {
       toast.error(message as string);
     } finally {
@@ -55,8 +63,8 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
   };
 
   return (
-    <Modal.Root name="entry">
-      <Modal.Title Icon={Save}>Nova Entrada</Modal.Title>
+    <Modal.Root name="editExit">
+      <Modal.Title Icon={Save}>Editar Saída</Modal.Title>
       <Modal.Content>
         <Form form={form} onSubmit={handleSubmit}>
           <Input
@@ -82,24 +90,6 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
           />
 
           <Input
-            label="Fornecedor"
-            control={form.control}
-            name="supplier"
-            required
-            size={6}
-            placeholder="Digite o fornecedor"
-          />
-
-          <Input
-            label="Detalhes"
-            control={form.control}
-            name="details"
-            required
-            size={6}
-            placeholder="Digite os detalhes"
-          />
-
-          <Input
             label="Conceito"
             control={form.control}
             name="concept"
@@ -107,18 +97,19 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
             required
             size={6}
             options={[
-              { value: "Compra", label: "Compra" },
+              { value: "Empréstimo", label: "Empréstimo" },
+              { value: "Venda", label: "Venda" },
               { value: "Doação", label: "Doação" },
-              { value: "Transferência", label: "Transferência" },
-              { value: "Devolução", label: "Devolução" },
+              { value: "Roubo", label: "Roubo" },
+              { value: "Uso interno", label: "Uso interno" },
             ]}
             placeholder="Selecione um conceito"
           />
 
           <Input
-            label="Data de Entrada"
+            label="Data de Saída"
             control={form.control}
-            name="entry_date"
+            name="exit_date"
             type="date"
             required
             size={6}
@@ -162,4 +153,4 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
     </Modal.Root>
   );
 };
-export default ModalEntry;
+export default ModalEditExit;

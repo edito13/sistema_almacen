@@ -15,18 +15,28 @@ import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import Form from "@/components/CustomForm";
 
-interface ModalEntryProps {
+interface ModalEditEntryProps {
+  item: Entry;
   onSave: () => void;
 }
 
 // Este componente foi revisado para corrigir problemas de sobreposição e estilo
-const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
+const ModalEditEntry: React.FC<ModalEditEntryProps> = ({ item, onSave }) => {
   const form = useForm<EntryFormData>({
     mode: "all",
+    defaultValues: {
+      equipment_id: item.equipment_id,
+      quantity: item.quantity,
+      supplier: item.supplier,
+      details: item.details,
+      concept: item.concept,
+      entry_date: item.entry_date,
+      responsible: item.responsible,
+    },
     resolver: zodResolver(schema),
   });
 
-  const { handleClose } = useModal("entry");
+  const { handleClose } = useModal("editEntry");
 
   const { data: dataEquipments } = useQuery({
     queryKey: ["equipments"],
@@ -43,10 +53,10 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
 
   const handleSubmit: SubmitHandler<EntryFormData> = async (data) => {
     try {
-      const response = await Api.entry.createEntry(data);
+      const response = await Api.entry.updateEntry(data, item.id);
       if (response?.error) throw response.message;
 
-      toast.success("Entrada feita com sucesso!");
+      toast.success("Entrada editada com sucesso.");
     } catch (message) {
       toast.error(message as string);
     } finally {
@@ -55,8 +65,8 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
   };
 
   return (
-    <Modal.Root name="entry">
-      <Modal.Title Icon={Save}>Nova Entrada</Modal.Title>
+    <Modal.Root name="editEntry">
+      <Modal.Title Icon={Save}>Editar Entrada</Modal.Title>
       <Modal.Content>
         <Form form={form} onSubmit={handleSubmit}>
           <Input
@@ -107,7 +117,7 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
             required
             size={6}
             options={[
-              { value: "Compra", label: "Compra" },
+              { value: "Nova Compra", label: "Nova compra" },
               { value: "Doação", label: "Doação" },
               { value: "Transferência", label: "Transferência" },
               { value: "Devolução", label: "Devolução" },
@@ -162,4 +172,4 @@ const ModalEntry: React.FC<ModalEntryProps> = ({ onSave }) => {
     </Modal.Root>
   );
 };
-export default ModalEntry;
+export default ModalEditEntry;

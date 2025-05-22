@@ -45,7 +45,7 @@ const Produtos: React.FC = () => {
   ];
 
   const handleSaveProduct = () => {
-    handleClose();
+    modalProduct.handleClose();
     refetch();
   };
 
@@ -54,13 +54,15 @@ const Produtos: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Cabeçalho */}
         <div className="bg-gradient-to-r from-blue-500 to-blue-400 rounded-lg p-6 shadow-md mb-6 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">{t('product.title')}</h1>
+          <h1 className="text-2xl font-bold text-white">
+            {t("product.title")}
+          </h1>
           <button
             className="bg-white text-blue-500 px-4 py-2 rounded-md shadow-sm flex items-center space-x-2 hover:bg-blue-50 transition"
-            onClick={handleOpen}
+            onClick={modalProduct.handleOpen}
           >
             <Plus size={18} />
-            <span className="font-medium">{t('product.button')}</span>
+            <span className="font-medium">{t("product.button")}</span>
           </button>
         </div>
 
@@ -84,7 +86,7 @@ const Produtos: React.FC = () => {
         {/* Tabela */}
         <Table columns={columns} data={data || []} />
         <ToastContainer position="bottom-right" />
-        {isOpen && <ModalProduto onSave={handleSaveProduct} />}
+        {modalProduct.isOpen && <ModalProduto onSave={handleSaveProduct} />}
       </div>
     </div>
   );
